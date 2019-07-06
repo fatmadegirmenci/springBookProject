@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Daos;
+package com.springbookproject.Daos;
 
 public class UserDao {
 }

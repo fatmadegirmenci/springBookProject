@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Controllers;
+package com.springbookproject.Controllers;
 
 public class UserController {
 }
