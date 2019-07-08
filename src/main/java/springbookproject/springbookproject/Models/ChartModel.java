@@ -12,6 +12,15 @@ public class ChartModel {
     private User user;
     private List<Book> book;
 
+    public ChartModel() {
+    }
+
+    public ChartModel(int totalPrice, User user, List<Book> book) {
+        this.totalPrice = totalPrice;
+        this.user = user;
+        this.book = book;
+    }
+
     public Long getId() {
         return id;
     }

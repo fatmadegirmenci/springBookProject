@@ -19,6 +19,20 @@ public class BookModel {
     private List<Category> category;
     private Inventory inventory;
 
+    public BookModel() {
+    }
+
+    public BookModel(String bookName, String code, Date publishDate, int price, Date updateDate, List<Author> author, List<Category> category, Inventory inventory) {
+        this.bookName = bookName;
+        this.code = code;
+        this.publishDate = publishDate;
+        this.price = price;
+        this.updateDate = updateDate;
+        this.author = author;
+        this.category = category;
+        this.inventory = inventory;
+    }
+
     public Long getId() {
         return id;
     }

@@ -4,6 +4,14 @@ import springbookproject.springbookproject.Beans.Book;
 
 public class InventoryModel {
 
+    public InventoryModel() {
+    }
+
+    public InventoryModel(int numberOfBook, Book book) {
+        this.numberOfBook = numberOfBook;
+        this.book = book;
+    }
+
     private Long id;
     private int numberOfBook;
     private Book book;

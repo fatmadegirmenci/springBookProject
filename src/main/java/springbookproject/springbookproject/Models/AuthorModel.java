@@ -12,6 +12,16 @@ public class AuthorModel {
     private String country;
     private List<Book> book;
 
+    public AuthorModel() {
+    }
+
+    public AuthorModel(String firstName, String lastName, String country, List<Book> book) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.book = book;
+    }
+
     public Long getId() {
         return id;
     }

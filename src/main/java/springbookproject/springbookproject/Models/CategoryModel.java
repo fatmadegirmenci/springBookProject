@@ -10,6 +10,14 @@ public class CategoryModel {
     private String category;
     private List<Book> book;
 
+    public CategoryModel() {
+    }
+
+    public CategoryModel(String category, List<Book> book) {
+        this.category = category;
+        this.book = book;
+    }
+
     public Long getId() {
         return id;
     }
