@@ -1,8 +1,7 @@
 package springbookproject.springbookproject.Daos;
 
 import org.springframework.stereotype.Repository;
-import springbookproject.springbookproject.Beans.Book;
-import springbookproject.springbookproject.Beans.User;
+import springbookproject.springbookproject.Beans.Author;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,27 +9,31 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public class UserDao {
+public class AuthorDao {
 
     @PersistenceContext
     EntityManager entityManager;
 
-    public void create(User user) {
-
+    public void create(Author author) {
         try {
-            entityManager.persist(user);
+            entityManager.persist(author);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(User user) {
-
+    public void delete(Author author) {
         try {
-            if(entityManager.contains(user))
-            entityManager.remove(user);
+            if(entityManager.contains(author)) {
+                entityManager.remove(author);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+  /*  public Author getByBook(String book_name) {
+        return (Author) entityManager.createQuery("SELECT a FROM Author a WHERE ")
+    }*/
+
 }
