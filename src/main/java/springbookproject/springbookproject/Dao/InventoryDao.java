@@ -1,9 +1,8 @@
-package springbookproject.springbookproject.Daos;
+package springbookproject.springbookproject.Dao;
 
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Beans.Book;
 import springbookproject.springbookproject.Beans.Inventory;
-import springbookproject.springbookproject.Models.InventoryModel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,20 +17,26 @@ public class InventoryDao {
 
     public void addBook(Book book) {
         try {
-            entityManager.persist(book);
+      //      return entityManager.createQuery("SELECT b FROM Book b INNER JOIN Inventory i ON " +
+      //              "b.bookId = i.bookId WHERE ")
         } catch (Exception e) {
             e.printStackTrace();
         }
+     //   return "";
     }
 
     public void deleteBook(Book book) {
         try {
             if(entityManager.contains(book)) {
-                entityManager.remove(book);
+                book.getInventory().getBook().remove(book);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Inventory getById(Long id) {
+        return (Inventory) entityManager.find(Inventory.class, id);
     }
 
     public void setBookCount(Long book_id, int bookCount) {

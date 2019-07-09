@@ -8,21 +8,6 @@ import java.util.List;
 @Entity
 @Table(name = "book_table")
 public class Book {
-
-    public Book() {
-    }
-
-    public Book(@NotNull String bookName, @NotNull String code, @NotNull Date publishDate, @NotNull int price, @NotNull Date updateDate, @NotNull List<Author> author, @NotNull List<Category> category, @NotNull Inventory inventory) {
-        this.bookName = bookName;
-        this.code = code;
-        this.publishDate = publishDate;
-        this.price = price;
-        this.updateDate = updateDate;
-        this.author = author;
-        this.category = category;
-        this.inventory = inventory;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -47,21 +32,37 @@ public class Book {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @NotNull
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> author;
 
-    @NotNull
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> category;
 
-    @NotNull
+
     @OneToOne
     private Inventory inventory;
+
+
+    public Book() {
+    }
+
+    public Book(@NotNull String bookName, @NotNull String code, @NotNull Date publishDate, @NotNull int price, @NotNull Date updateDate, List<Author> author, List<Category> category, Inventory inventory) {
+        this.bookName = bookName;
+        this.code = code;
+        this.publishDate = publishDate;
+        this.price = price;
+        this.updateDate = updateDate;
+        this.author = author;
+        this.category = category;
+        this.inventory = inventory;
+    }
+
 
     public Long getId() {
         return id;

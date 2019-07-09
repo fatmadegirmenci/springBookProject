@@ -8,16 +8,6 @@ import java.util.List;
 @Table(name = "author_table")
 public class Author {
 
-    public Author() {
-    }
-
-    public Author(@NotNull String firstName, @NotNull String lastName, @NotNull String country, @NotNull List<Book> book) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.book = book;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,9 +24,20 @@ public class Author {
     @Column(name = "country")
     private String country;
 
-    @NotNull
     @ManyToMany(mappedBy = "author")
     private List<Book> book;
+
+
+    public Author() {
+    }
+
+    public Author(@NotNull String firstName, @NotNull String lastName, @NotNull String country, @NotNull List<Book> book) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.book = book;
+    }
+
 
     public Long getId() {
         return id;

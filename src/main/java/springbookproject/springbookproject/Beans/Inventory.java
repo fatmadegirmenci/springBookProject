@@ -2,18 +2,11 @@ package springbookproject.springbookproject.Beans;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "inventory_table")
 public class Inventory {
-
-    public Inventory(@NotNull int numberOfBook, @NotNull Book book) {
-        this.numberOfBook = numberOfBook;
-        this.book = book;
-    }
-
-    public Inventory() {
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,9 +16,17 @@ public class Inventory {
     @Column(name = "number_of_book")
     private int numberOfBook;
 
-    @NotNull
     @OneToOne
     private Book book;
+
+    public Inventory(@NotNull int numberOfBook, List<Book> book) {
+        this.numberOfBook = numberOfBook;
+        this.book = (Book) book;
+    }
+
+    public Inventory() {
+    }
+
 
     public Long getId() {
         return id;
@@ -43,11 +44,11 @@ public class Inventory {
         this.numberOfBook = numberOfBook;
     }
 
-    public Book getBook() {
-        return book;
+    public List<Book> getBook() {
+        return (List<Book>) book;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBook(List<Book> book) {
+        this.book = (Book) book;
     }
 }

@@ -23,15 +23,14 @@ public class ChartController {
     @Autowired
     UserDao userDao;
 
-    @PostMapping(value = "/addBook")
-    public String addBook(@RequestBody BookModel bookModel, @RequestBody UserModel userModel) {
-        try {
-            Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
-                    bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
-                    bookModel.getCategory(), bookModel.getInventory());
+    @Autowired
+    BookDao bookDao;
 
-            User user = new User(userModel.getFirstName(), userModel.getLastName(),
-                    userModel.getRegisterDate(), userModel.getAddress(), userModel.getChart());
+    @PostMapping(value = "{id}/addBook/{bookId}")
+    public String addBook(@PathVariable Long id, @PathVariable Long userId) {
+        try {
+            Book book = bookDao.getById(id);
+            User user = userDao.getById(id);
 
             chartDao.addBook(book, user);
             return "sepete kitap ekleme basarili";

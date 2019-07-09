@@ -2,9 +2,11 @@ package springbookproject.springbookproject.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springbookproject.springbookproject.Beans.Chart;
 import springbookproject.springbookproject.Beans.User;
 import springbookproject.springbookproject.Dao.ChartDao;
 import springbookproject.springbookproject.Dao.UserDao;
+import springbookproject.springbookproject.Model.ChartModel;
 import springbookproject.springbookproject.Model.UserModel;
 
 @RestController
@@ -20,10 +22,15 @@ public class UserController {
     @PostMapping("/create")
     public String create(@RequestBody UserModel userModel) {
         try {
+
             User user = new User(userModel.getFirstName(), userModel.getLastName(),
                     userModel.getRegisterDate(), userModel.getAddress(), userModel.getChart());
 
-            userDao.create(user);
+            Chart chart = new Chart(50, user);
+            chartDao.create(chart);
+
+            user.setChart(chart);
+            userDao.create(user, chart);
 
             return "user ekleme basarili";
         } catch (Exception e) {
@@ -48,5 +55,7 @@ public class UserController {
     public User getByUser(@PathVariable Long id) {
         return userDao.getById(id);
     }
+
+
 
 }

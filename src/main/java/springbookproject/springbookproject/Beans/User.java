@@ -8,16 +8,7 @@ import java.util.Date;
 @Table(name = "user_table")
 public class User {
 
-    public User() {
-    }
 
-    public User(@NotNull String firstName, @NotNull String lastName, @NotNull Date registerDate, @NotNull String address, @NotNull Chart chart) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.registerDate = registerDate;
-        this.address = address;
-        this.chart = chart;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,9 +30,19 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Chart chart;
+
+    public User() {
+    }
+
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull Date registerDate, @NotNull String address, Chart chart) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registerDate = registerDate;
+        this.address = address;
+        this.chart = chart;
+    }
 
     public Long getId() {
         return id;

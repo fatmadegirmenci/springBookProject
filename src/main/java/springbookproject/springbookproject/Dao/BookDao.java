@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Daos;
+package springbookproject.springbookproject.Dao;
 
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Beans.Book;
@@ -25,11 +25,15 @@ public class BookDao {
     public void delete(Book book) {
         try {
             if(entityManager.contains(book)) {
-                entityManager.persist(book);
+                entityManager.remove(book);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Book getById(Long id) {
+        return (Book) entityManager.find(Book.class, id);
     }
 
     public Book getByName(String name) {

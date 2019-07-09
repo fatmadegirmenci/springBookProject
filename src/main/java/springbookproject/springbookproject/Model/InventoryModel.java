@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Models;
+package springbookproject.springbookproject.Model;
 
 import springbookproject.springbookproject.Beans.Book;
 
@@ -11,6 +11,8 @@ public class InventoryModel {
         this.numberOfBook = numberOfBook;
         this.book = book;
     }
+
+
 
     private Long id;
     private int numberOfBook;

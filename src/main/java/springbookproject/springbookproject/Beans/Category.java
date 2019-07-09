@@ -8,14 +8,6 @@ import java.util.List;
 @Table(name = "category_table")
 public class Category {
 
-    public Category() {
-    }
-
-    public Category(@NotNull String category, @NotNull List<Book> book) {
-        this.category = category;
-        this.book = book;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,9 +16,17 @@ public class Category {
     @Column(name = "category")
     private String category;
 
-    @NotNull
+
     @ManyToMany(mappedBy = "category")
     private List<Book> book;
+
+    public Category() {
+    }
+
+    public Category(@NotNull String category, List<Book> book) {
+        this.category = category;
+        this.book = book;
+    }
 
     public Long getId() {
         return id;

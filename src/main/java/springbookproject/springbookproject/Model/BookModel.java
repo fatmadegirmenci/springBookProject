@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Models;
+package springbookproject.springbookproject.Model;
 
 import springbookproject.springbookproject.Beans.Author;
 import springbookproject.springbookproject.Beans.Category;

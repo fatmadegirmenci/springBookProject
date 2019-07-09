@@ -8,15 +8,6 @@ import java.util.List;
 @Table(name = "chart_table")
 public class Chart {
 
-    public Chart() {
-    }
-
-    public Chart(@NotNull int totalPrice, @NotNull User user, @NotNull List<Book> book) {
-        this.totalPrice = totalPrice;
-        this.user = user;
-        this.book = book;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,15 +16,27 @@ public class Chart {
     @Column(name = "total_price")
     private int totalPrice;
 
-    @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @NotNull
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "chart_book_list_table", joinColumns = @JoinColumn(name = "chart_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> book;
+
+    public Chart() {
+    }
+
+    public Chart(@NotNull int totalPrice, User user, List<Book> book) {
+        this.totalPrice = totalPrice;
+        this.user = user;
+        this.book = book;
+    }
+
+    public Chart(@NotNull int totalPrice, User user) {
+        this.totalPrice = totalPrice;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
