@@ -44,7 +44,24 @@ public class Book {
    //         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> category;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Chart.class)
+    @JoinTable(name = "book_chart",
+            inverseJoinColumns = @JoinColumn(name = "chart_id",
+                    nullable = false,
+                    updatable = false),
+            joinColumns = @JoinColumn(name = "book_id",
+                    nullable = false,
+                    updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private List<Chart> chart;
 
     @OneToOne(cascade = CascadeType.ALL)

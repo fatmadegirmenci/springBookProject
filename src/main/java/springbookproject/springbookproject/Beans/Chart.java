@@ -19,7 +19,24 @@ public class Chart {
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @ManyToMany(mappedBy = "chart", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Book.class)
+    @JoinTable(name = "book_chart",
+            joinColumns = @JoinColumn(name = "chart_id",
+                    nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "book_id",
+                    nullable = false,
+                    updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private List<Book> book;
 
     public Chart() {
