@@ -3,8 +3,10 @@ package springbookproject.springbookproject.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springbookproject.springbookproject.Beans.Book;
+import springbookproject.springbookproject.Beans.Inventory;
 import springbookproject.springbookproject.Dao.AuthorDao;
 import springbookproject.springbookproject.Dao.BookDao;
+import springbookproject.springbookproject.Dao.InventoryDao;
 import springbookproject.springbookproject.Model.BookModel;
 
 @RestController
@@ -17,17 +19,27 @@ public class BookController {
     @Autowired
     AuthorDao authorDao;
 
+    @Autowired
+    InventoryDao inventoryDao;
+
     @PostMapping(value = "/create")
     public String create(@RequestBody BookModel bookModel) {
         try {
             Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
                     bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
                     bookModel.getCategory(), bookModel.getInventory());
+
+
+            Inventory inventory = new Inventory(1, book);
+            inventoryDao.create(inventory);
+
+            book.setInventory(inventory);
             bookDao.create(book);
 
             for(int i=0; i<book.getAuthor().size(); i++) {
                 authorDao.create(book.getAuthor().get(i));
             }
+
             return "kitap ekleme basarili";
         } catch (Exception e) {
             e.printStackTrace();

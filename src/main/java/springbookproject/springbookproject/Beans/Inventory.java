@@ -16,12 +16,12 @@ public class Inventory {
     @Column(name = "number_of_book")
     private int numberOfBook;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Book book;
 
-    public Inventory(@NotNull int numberOfBook, List<Book> book) {
+    public Inventory(@NotNull int numberOfBook, Book book) {
         this.numberOfBook = numberOfBook;
-        this.book = (Book) book;
+        this.book = book;
     }
 
     public Inventory() {
@@ -44,11 +44,11 @@ public class Inventory {
         this.numberOfBook = numberOfBook;
     }
 
-    public List<Book> getBook() {
-        return (List<Book>) book;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public void setBook(List<Book> book) {
-        this.book = (Book) book;
+    public Book getBook() {
+        return book;
     }
 }

@@ -15,6 +15,14 @@ public class InventoryDao {
     @PersistenceContext
     EntityManager entityManager;
 
+    public void create(Inventory inventory) {
+        try {
+            entityManager.persist(inventory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addBook(Book book) {
         try {
       //      return entityManager.createQuery("SELECT b FROM Book b INNER JOIN Inventory i ON " +
@@ -28,7 +36,7 @@ public class InventoryDao {
     public void deleteBook(Book book) {
         try {
             if(entityManager.contains(book)) {
-                book.getInventory().getBook().remove(book);
+     //           book.getInventory().getBook().remove(book);
             }
         } catch (Exception e) {
             e.printStackTrace();

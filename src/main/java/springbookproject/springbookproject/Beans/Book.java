@@ -45,7 +45,7 @@ public class Book {
     private List<Category> category;
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Inventory inventory;
 
 
