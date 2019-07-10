@@ -53,8 +53,8 @@ public class BookDao {
                 .setParameter("code", code).getSingleResult();
     }
 
-    public Book listByPrice() {
-        return (Book) entityManager.createQuery("SELECT b FROM Book b ORDER BY price ASC")
+    public List<Book> listByPrice() {
+        return (List<Book>) entityManager.createNativeQuery("SELECT id FROM book b ORDER BY price ASC")
                 .getResultList();
     }
 }

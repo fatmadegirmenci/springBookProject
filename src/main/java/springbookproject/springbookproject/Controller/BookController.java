@@ -91,7 +91,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/listPrice")
-    public Book listByPrice() {
+    public List<Book> listByPrice() {
         return bookDao.listByPrice();
     }
 }

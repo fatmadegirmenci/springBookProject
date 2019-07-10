@@ -1,5 +1,8 @@
 package springbookproject.springbookproject.Dao;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Beans.Book;
 import springbookproject.springbookproject.Beans.Chart;
@@ -8,6 +11,7 @@ import springbookproject.springbookproject.Beans.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -41,12 +45,9 @@ public class ChartDao {
         }
     }
 
-
-    public void deleteBook(List<Book> book, User user) {
+    public void deleteBook(Book book) {
         try {
-            if(user.getChart().getBook().contains(book)) {
-                user.getChart().getBook().remove(book);
-            }
+            book.setChart(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,10 +57,10 @@ public class ChartDao {
         return (Chart) entityManager.find(Chart.class, id);
     }
 
-    public int getTotalPrice(Long id) {
+  /*  public int getTotalPrice(Long id) {
         return (int) entityManager.createQuery("SELECT total_price FROM Chart WHERE user_id = :id")
                 .setParameter("id", id).getSingleResult();
-    }
+    }*/
 
     public List<Book> getBookList(Long user_id) {
         //return entityManager.createQuery("SELECT c FROM chart_book_list_table c").getResultList();

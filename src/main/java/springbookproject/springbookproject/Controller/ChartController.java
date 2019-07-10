@@ -1,6 +1,7 @@
 package springbookproject.springbookproject.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import springbookproject.springbookproject.Beans.Book;
 import springbookproject.springbookproject.Beans.Chart;
@@ -13,6 +14,7 @@ import springbookproject.springbookproject.Model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/chart")
@@ -51,10 +53,30 @@ public class ChartController {
         return "sepete kitap ekleme basarisiz";
     }
 
-    @PostMapping(value = "/deleteBook")
-    public String deleteBook(@RequestBody List<BookModel> bookModel, @RequestBody UserModel userModel ){
+    @PostMapping(value = "{chartId}/deleteBook/{book_id}")
+    public String deleteBook(@PathVariable Long chartId, @PathVariable Long book_id) {
         try {
-            chartDao.deleteBook(chartDao.getById(userModel.getId()).getBook(), chartDao.getById(userModel.getId()).getUser());
+            Book book = bookDao.getById(book_id);
+            chartDao.deleteBook(book);
+
+            return "sepetten kitap silme basarili";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "kitap silme basarisiz";
+    }
+
+   /* @PostMapping(value = "/deleteBook/{book_id}")
+    public String deleteBook(@RequestBody List<BookModel> bookModel, @RequestBody UserModel userModel, @PathVariable Long book_id){
+        try {
+            //chartDao.deleteBook(chartDao.getById(userModel.getId()).getBook(), chartDao.getById(userModel.getId()).getUser());
+            for(int i=0; i< chartDao.getById(userModel.getId()).getBook().size(); i++) {
+                if(chartDao.getById(userModel.getId()).getBook().get(i).getId() == book_id) {
+                    chartDao.deleteBook(chartDao.getById(userModel.getId()).getBook().get(i), userModel.getChart());
+                }
+            }
+
             return "sepetten kitap silme basarili";
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,17 +84,17 @@ public class ChartController {
 
         return "sepetten kitap silme basarisiz";
     }
-
+*/
     @GetMapping("/getId/{id}")
     public Chart getById(@PathVariable Long id) {
         return chartDao.getById(id);
     }
 
-    @GetMapping("/getTotalPrice/{id}")
+   /* @GetMapping("/getTotalPrice/{id}")
     public int getTotalPrice(@PathVariable Long id) {
         return chartDao.getTotalPrice(id);
     }
-
+*/
     @RequestMapping(value = "/getList/{user_id}/list", method = RequestMethod.GET)
     public List<Book> getBookList(@PathVariable Long user_id) {
         //return entityManager.createQuery("SELECT c FROM chart_book_list_table c").getResultList();

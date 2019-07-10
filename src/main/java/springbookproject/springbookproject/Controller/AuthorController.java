@@ -28,8 +28,6 @@ public class AuthorController {
                 bookDao.create(author.getBook().get(i));
             }
 
-
-
             return "author olusturuldu";
         } catch (Exception e) {
             e.printStackTrace();
