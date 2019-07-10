@@ -25,6 +25,14 @@ public class ChartDao {
         }
     }
 
+ /*   public void addBook(Book book, User user) {
+        try {
+            user.getChart().getBook().add(book);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
     public void addBook(Book book, User user) {
         try {
             user.getChart().getBook().add(book);
@@ -32,6 +40,7 @@ public class ChartDao {
             e.printStackTrace();
         }
     }
+
 
     public void deleteBook(List<Book> book, User user) {
         try {

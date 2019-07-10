@@ -52,10 +52,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/getId/{id}")
-    public User getByUser(@PathVariable Long id) {
+    public User getById(@PathVariable Long id) {
         return userDao.getById(id);
     }
-
-
-
 }

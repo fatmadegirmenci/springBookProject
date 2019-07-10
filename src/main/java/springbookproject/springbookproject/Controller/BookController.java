@@ -3,6 +3,7 @@ package springbookproject.springbookproject.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springbookproject.springbookproject.Beans.Book;
+import springbookproject.springbookproject.Dao.AuthorDao;
 import springbookproject.springbookproject.Dao.BookDao;
 import springbookproject.springbookproject.Model.BookModel;
 
@@ -13,6 +14,9 @@ public class BookController {
     @Autowired
     BookDao bookDao;
 
+    @Autowired
+    AuthorDao authorDao;
+
     @PostMapping(value = "/create")
     public String create(@RequestBody BookModel bookModel) {
         try {
@@ -20,6 +24,10 @@ public class BookController {
                     bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
                     bookModel.getCategory(), bookModel.getInventory());
             bookDao.create(book);
+
+            for(int i=0; i<book.getAuthor().size(); i++) {
+                authorDao.create(book.getAuthor().get(i));
+            }
             return "kitap ekleme basarili";
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,10 +57,11 @@ public class BookController {
         return bookDao.getByName(name);
     }
 
-    @GetMapping(value = "/getAuthor/{author}")
-    public Book getByAuthor(@PathVariable String author) {
-        return bookDao.getByAuthor(author);
-    }
+  //  @GetMapping(value = "/getAuthor/{author}")
+    //public Book getByAuthor(@PathVariable String author) {
+     //   return bookDao.getByAuthor(author);
+
+   // }
 
     @GetMapping(value = "/getCode/{code}")
     public Book getByCode(@PathVariable String code) {

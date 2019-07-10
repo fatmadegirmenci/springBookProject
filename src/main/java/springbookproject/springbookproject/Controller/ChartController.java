@@ -26,13 +26,14 @@ public class ChartController {
     @Autowired
     BookDao bookDao;
 
-    @PostMapping(value = "{id}/addBook/{bookId}")
-    public String addBook(@PathVariable Long id, @PathVariable Long userId) {
+    @PostMapping(value = "{userId}/addBook/{bookId}")
+    public String addBook(@PathVariable Long userId, @PathVariable Long bookId) {
         try {
-            Book book = bookDao.getById(id);
-            User user = userDao.getById(id);
+            Book book = bookDao.getById(bookId);
+            User user = userDao.getById(userId);
 
             chartDao.addBook(book, user);
+            //chartDao.addBook(book, userDao.);
             return "sepete kitap ekleme basarili";
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,5 +62,12 @@ public class ChartController {
     @GetMapping("/getTotalPrice/{id}")
     public int getTotalPrice(@PathVariable Long id) {
         return chartDao.getTotalPrice(id);
+    }
+
+    @RequestMapping(value = "/getList/{user_id}/list", method = RequestMethod.GET)
+    public List<Book> getBookList(@PathVariable Long user_id) {
+        //return entityManager.createQuery("SELECT c FROM chart_book_list_table c").getResultList();
+
+        return  chartDao.getBookList(user_id);
     }
 }

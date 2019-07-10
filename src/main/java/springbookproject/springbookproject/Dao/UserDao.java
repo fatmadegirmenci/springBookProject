@@ -18,7 +18,7 @@ public class UserDao {
     public void create(User user, Chart chart) {
         try {
             entityManager.persist(user);
-            user.setChart(chart);
+     //       user.setChart(chart);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package springbookproject.springbookproject.Dao;
 
 import org.springframework.stereotype.Repository;
+import springbookproject.springbookproject.Beans.Author;
 import springbookproject.springbookproject.Beans.Book;
 
 import javax.persistence.EntityManager;
@@ -41,9 +42,9 @@ public class BookDao {
                 .setParameter("name", name).getResultList();
     }
 
-    public Book getByAuthor(String author) {
-        return (Book) entityManager.createQuery("SELECT b FROM Book b WHERE author_name = :author")
-                .setParameter("author", author).getResultList();
+    public Book getByAuthor(Author author) {
+        return (Book) entityManager.createNativeQuery("SELECT b FROM book_author b WHERE b.author_id= :author")
+                .setParameter("author", author.getId()).getResultList();
     }
 
     public Book getByCode(String code) {
