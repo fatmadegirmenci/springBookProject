@@ -19,7 +19,7 @@ public class InventoryController {
         try {
             Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
                     bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
-                    bookModel.getCategory(), bookModel.getInventory());
+                    bookModel.getCategory(), bookModel.getChart(), bookModel.getInventory());
 
             inventoryDao.addBook(book);
 

@@ -5,10 +5,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "user_table")
+@Table(name = "usert")
 public class User {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

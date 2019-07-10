@@ -7,6 +7,7 @@ import springbookproject.springbookproject.Beans.Book;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -37,14 +38,14 @@ public class BookDao {
         return (Book) entityManager.find(Book.class, id);
     }
 
-    public Book getByName(String name) {
-        return (Book) entityManager.createQuery("SELECT b FROM Book b WHERE book_name = :name")
+    public List<Book> getByName(String name) {
+        return entityManager.createQuery("SELECT b FROM Book b WHERE book_name = :name")
                 .setParameter("name", name).getResultList();
     }
 
-    public Book getByAuthor(Author author) {
-        return (Book) entityManager.createNativeQuery("SELECT b FROM book_author b WHERE b.author_id= :author")
-                .setParameter("author", author.getId()).getResultList();
+    public List<Book> getByAuthor(Long id) {
+        return entityManager.createNativeQuery("SELECT book_id FROM book_author b WHERE b.author_id= :id")
+                .setParameter("id", id).getResultList();
     }
 
     public Book getByCode(String code) {

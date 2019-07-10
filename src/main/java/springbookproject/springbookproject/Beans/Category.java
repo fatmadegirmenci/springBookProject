@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "category_table")
+//@Table(name = "category_table")
 public class Category {
 
     @Id

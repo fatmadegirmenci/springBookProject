@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "book_table")
+//@Table(name = "book_table")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,16 +34,18 @@ public class Book {
 
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
+ //   @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
+  //          inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> author;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
+   // @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
+   //         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> category;
 
+    @ManyToMany
+    private List<Chart> chart;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Inventory inventory;
@@ -52,7 +54,9 @@ public class Book {
     public Book() {
     }
 
-    public Book(@NotNull String bookName, @NotNull String code, @NotNull Date publishDate, @NotNull int price, @NotNull Date updateDate, List<Author> author, List<Category> category, Inventory inventory) {
+
+    public Book(@NotNull String bookName, @NotNull String code, @NotNull Date publishDate, @NotNull int price,
+                @NotNull Date updateDate, List<Author> author, List<Category> category, List<Chart> chart, Inventory inventory) {
         this.bookName = bookName;
         this.code = code;
         this.publishDate = publishDate;
@@ -60,9 +64,17 @@ public class Book {
         this.updateDate = updateDate;
         this.author = author;
         this.category = category;
+        this.chart = chart;
         this.inventory = inventory;
     }
 
+    public List<Chart> getChart() {
+        return chart;
+    }
+
+    public void setChart(List<Chart> chart) {
+        this.chart = chart;
+    }
 
     public Long getId() {
         return id;

@@ -11,6 +11,7 @@ import springbookproject.springbookproject.Dao.UserDao;
 import springbookproject.springbookproject.Model.BookModel;
 import springbookproject.springbookproject.Model.UserModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,11 +27,19 @@ public class ChartController {
     @Autowired
     BookDao bookDao;
 
-    @PostMapping(value = "{userId}/addBook/{bookId}")
-    public String addBook(@PathVariable Long userId, @PathVariable Long bookId) {
+    @PostMapping(value = "{chartId}/addBook/{bookId}")
+    public String addBook(@PathVariable Long chartId, @PathVariable Long bookId) {
         try {
             Book book = bookDao.getById(bookId);
-            User user = userDao.getById(userId);
+            User user = chartDao.getById(chartId).getUser();
+
+            Chart chart = user.getChart();
+
+          //  List<Chart> charts = new ArrayList<Chart>() ;
+           // charts.add(chart);
+
+            // book.getChart().add(chart);
+            book.getChart().add(chart);
 
             chartDao.addBook(book, user);
             //chartDao.addBook(book, userDao.);

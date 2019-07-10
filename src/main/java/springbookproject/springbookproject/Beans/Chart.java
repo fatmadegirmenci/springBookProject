@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "chart_table")
+//@Table(name = "chart_table")
 public class Chart {
 
     @Id
@@ -19,9 +19,7 @@ public class Chart {
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "chart_book_list_table", joinColumns = @JoinColumn(name = "chart_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @ManyToMany(mappedBy = "chart", cascade = CascadeType.ALL)
     private List<Book> book;
 
     public Chart() {

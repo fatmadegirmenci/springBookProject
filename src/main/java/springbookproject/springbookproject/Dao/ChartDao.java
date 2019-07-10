@@ -64,6 +64,6 @@ public class ChartDao {
     public List<Book> getBookList(Long user_id) {
         //return entityManager.createQuery("SELECT c FROM chart_book_list_table c").getResultList();
 
-        return  entityManager.createNativeQuery("SELECT c FROM chart_book_list_table c").getResultList();
+        return  entityManager.createNativeQuery("SELECT c FROM book_chart c").getResultList();
     }
 }

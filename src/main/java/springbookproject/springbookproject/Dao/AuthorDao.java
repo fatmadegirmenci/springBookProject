@@ -45,7 +45,7 @@ public class AuthorDao {
     public List getBookList(Long user_id) {
         //return entityManager.createQuery("SELECT c FROM chart_book_list_table c").getResultList();
 
-        return  entityManager.createNativeQuery("SELECT b FROM Book b, chart_book_list_table c WHERE c.user_id = :user_id" +
+        return  entityManager.createNativeQuery("SELECT b FROM Book b, book_chart c WHERE c.user_id = :user_id" +
                 "AND b.book_id = c.book_id")
                 .setParameter("user_id", user_id).getResultList();
     }

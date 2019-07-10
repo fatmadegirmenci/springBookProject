@@ -2,6 +2,7 @@ package springbookproject.springbookproject.Model;
 
 import springbookproject.springbookproject.Beans.Author;
 import springbookproject.springbookproject.Beans.Category;
+import springbookproject.springbookproject.Beans.Chart;
 import springbookproject.springbookproject.Beans.Inventory;
 
 import java.util.Date;
@@ -18,11 +19,12 @@ public class BookModel {
     private List<Author> author;
     private List<Category> category;
     private Inventory inventory;
+    private List<Chart> chart;
 
     public BookModel() {
     }
 
-    public BookModel(String bookName, String code, Date publishDate, int price, Date updateDate, List<Author> author, List<Category> category, Inventory inventory) {
+    public BookModel(String bookName, String code, Date publishDate, int price, Date updateDate, List<Author> author, List<Category> category, Inventory inventory, List<Chart> chart) {
         this.bookName = bookName;
         this.code = code;
         this.publishDate = publishDate;
@@ -31,6 +33,15 @@ public class BookModel {
         this.author = author;
         this.category = category;
         this.inventory = inventory;
+        this.chart = chart;
+    }
+
+    public List<Chart> getChart() {
+        return chart;
+    }
+
+    public void setChart(List<Chart> chart) {
+        this.chart = chart;
     }
 
     public Long getId() {
