@@ -56,7 +56,7 @@ public class BookController {
             e.printStackTrace();
         }
 
-        return "kitap silme islemi basarili";
+        return "kitap silme islemi basarisiz";
     }
 
     @GetMapping(value = "/getId/{id}")

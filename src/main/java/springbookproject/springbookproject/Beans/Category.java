@@ -17,7 +17,7 @@ public class Category {
     private String category;
 
 
-    @ManyToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Book> book;
 
     public Category() {
