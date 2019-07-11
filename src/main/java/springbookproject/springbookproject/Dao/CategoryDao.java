@@ -1,6 +1,7 @@
 package springbookproject.springbookproject.Dao;
 
 import org.springframework.stereotype.Repository;
+import springbookproject.springbookproject.Beans.Book;
 import springbookproject.springbookproject.Beans.Category;
 
 import javax.persistence.EntityManager;
@@ -27,6 +28,22 @@ public class CategoryDao {
             if(entityManager.contains(category)) {
                 entityManager.remove(category);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBook(Book book, Category category) {
+        try {
+            category.getBook().add(book);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteBook(Book book, Category category) {
+        try {
+            category.getBook().remove(book);
         } catch (Exception e) {
             e.printStackTrace();
         }

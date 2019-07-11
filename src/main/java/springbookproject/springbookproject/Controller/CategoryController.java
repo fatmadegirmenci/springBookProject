@@ -2,7 +2,9 @@ package springbookproject.springbookproject.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springbookproject.springbookproject.Beans.Book;
 import springbookproject.springbookproject.Beans.Category;
+import springbookproject.springbookproject.Dao.BookDao;
 import springbookproject.springbookproject.Dao.CategoryDao;
 import springbookproject.springbookproject.Model.CategoryModel;
 
@@ -12,6 +14,9 @@ public class CategoryController {
 
     @Autowired
     CategoryDao categoryDao;
+
+    @Autowired
+    BookDao bookDao;
 
     @PostMapping(value = "/create")
     public String create(@RequestBody CategoryModel categoryModel) {
@@ -37,6 +42,40 @@ public class CategoryController {
         }
 
         return "kategori silme basarisiz";
+    }
+
+    @PostMapping(value = "{categoryId}/addBook/{bookId}")
+    public String addBook( @PathVariable Long categoryId, @PathVariable Long bookId) {
+        try {
+            Book book = bookDao.getById(bookId);
+
+            Category category = categoryDao.getById(categoryId);
+            //    book.getAuthor().add(author);
+
+            categoryDao.addBook(book, category);
+
+            return "kategoriye kitap ekleme basarili";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "kategoriye kitap ekleme basarisiz";
+    }
+
+    @PostMapping(value = "{categoryId}/deleteBook/{bookId}")
+    public String deleteBook(@PathVariable Long categoryId, @PathVariable Long bookId) {
+        try {
+            Category category = categoryDao.getById(categoryId);
+            Book book = bookDao.getById(bookId);
+
+            categoryDao.deleteBook(book, category);
+
+            return "kategoriden kitap silme basarili";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "kategoriden kitap silme basarisiz";
     }
 
     @GetMapping(value = "/getId/{id}")
