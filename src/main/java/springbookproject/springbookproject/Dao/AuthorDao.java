@@ -45,7 +45,7 @@ public class AuthorDao {
 
     public void deleteBook(Book book, Author author) {
         try {
-            book.getAuthor().remove(author);
+            author.getBook().remove(book);
         } catch (Exception e) {
             e.printStackTrace();
         }
