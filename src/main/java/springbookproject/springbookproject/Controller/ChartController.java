@@ -41,7 +41,7 @@ public class ChartController {
            // charts.add(chart);
 
             // book.getChart().add(chart);
-            book.getChart().add(chart);
+          //  book.getChart().add(chart);
 
             chartDao.addBook(book, user);
             //chartDao.addBook(book, userDao.);
