@@ -3,6 +3,7 @@ package springbookproject.springbookproject.Dao;
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Beans.Author;
 import springbookproject.springbookproject.Beans.Book;
+import springbookproject.springbookproject.Beans.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,6 +30,22 @@ public class AuthorDao {
             if(entityManager.contains(author)) {
                 entityManager.remove(author);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBook(Book book, Author author) {
+        try {
+            author.getBook().add(book);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteBook(Book book, Author author) {
+        try {
+            book.getAuthor().remove(author);
         } catch (Exception e) {
             e.printStackTrace();
         }

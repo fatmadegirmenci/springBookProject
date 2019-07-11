@@ -48,9 +48,9 @@ public class BookController {
             book.setChart(charts);*/
             bookDao.create(book);
 
-            for(int i=0; i<book.getAuthor().size(); i++) {
-                authorDao.create(book.getAuthor().get(i));
-            }
+         //   for(int i=0; i<book.getAuthor().size(); i++) {
+           //     authorDao.create(book.getAuthor().get(i));
+            //}
 
             return "kitap ekleme basarili";
         } catch (Exception e) {
