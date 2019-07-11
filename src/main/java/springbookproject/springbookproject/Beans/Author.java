@@ -24,7 +24,25 @@ public class Author {
     @Column(name = "country")
     private String country;
 
-    @ManyToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Book.class)
+    @JoinTable(name = "book_author",
+            joinColumns = @JoinColumn(name = "author_id",
+                    nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "book_id",
+                    nullable = false,
+                    updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    //@ManyToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> book;
 
 

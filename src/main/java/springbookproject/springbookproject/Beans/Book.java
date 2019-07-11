@@ -32,8 +32,25 @@ public class Book {
     @Column(name = "update_date")
     private Date updateDate;
 
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Author.class)
+    @JoinTable(name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id",
+                    nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "author_id",
+                    nullable = false,
+                    updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+ //   @ManyToMany(cascade = CascadeType.ALL)
  //   @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
   //          inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> author;
