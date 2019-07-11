@@ -34,7 +34,7 @@ public class InventoryController {
     @PostMapping(value = "/deleteBook")
     public String deleteBook(@RequestBody BookModel bookModel) {
         try {
-            //inventoryDao.deleteBook(bookModel.getInventory().getBook()));
+            inventoryDao.deleteBook(bookModel.getInventory().getBook());
             return "inventory deletebook basarili";
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,19 +48,18 @@ public class InventoryController {
         return inventoryDao.getById(id);
     }
 
-    @GetMapping(value = "/setBookCount")
-    public void setBookCount(Long book_id, int bookCount) {
-        inventoryDao.setBookCount(book_id, bookCount);
+    @PostMapping(value = "/setBookCount/{bookId}/{numberOfBook}")
+    public void setBookCount(@PathVariable  Long bookId, @PathVariable int numberOfBook) {
+        inventoryDao.setBookCount(bookId, numberOfBook);
     }
 
-    @GetMapping(value = "/decreaseBookCount")
-    public void decreaseBookCount(Long book_id) {
+    @PostMapping(value = "/decreaseBookCount/{book_id}")
+    public void decreaseBookCount(@PathVariable Long book_id) {
         inventoryDao.decreaseBookCount(book_id);
     }
-    @GetMapping(value = "/increaseBookCount")
-    public void increaseBookCount(Long book_id) {
+    @PostMapping(value = "/increaseBookCount/{book_id}")
+    public void increaseBookCount(@PathVariable Long book_id) {
         inventoryDao.increaseBookCount(book_id);
     }
-
 
 }

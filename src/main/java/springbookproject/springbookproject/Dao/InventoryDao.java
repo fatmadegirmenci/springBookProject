@@ -36,7 +36,8 @@ public class InventoryDao {
     public void deleteBook(Book book) {
         try {
             if(entityManager.contains(book)) {
-     //           book.getInventory().getBook().remove(book);
+
+                entityManager.remove(book);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,15 +53,22 @@ public class InventoryDao {
     }
 
     public void decreaseBookCount(Long book_id) {
-        int currentNumOfBook = entityManager.find(Book.class, book_id).getInventory().getNumberOfBook();
+        Book book = entityManager.find(Book.class, book_id);
+        int currentNumOfBook = book.getInventory().getNumberOfBook();
+        currentNumOfBook--;
+        book.getInventory().setNumberOfBook(currentNumOfBook);
 
-        entityManager.find(Book.class, book_id).getInventory().setNumberOfBook(currentNumOfBook--);
+        if(currentNumOfBook <= 0) {
+            entityManager.remove(book);
+        }
     }
 
 
     public void increaseBookCount(Long book_id) {
-        int currentNumOfBook = entityManager.find(Book.class, book_id).getInventory().getNumberOfBook();
+        Book book = entityManager.find(Book.class, book_id);
+        int currentNumOfBook = book.getInventory().getNumberOfBook();
+        currentNumOfBook++;
+        book.getInventory().setNumberOfBook(currentNumOfBook);
 
-        entityManager.find(Book.class, book_id).getInventory().setNumberOfBook(currentNumOfBook++);
     }
 }

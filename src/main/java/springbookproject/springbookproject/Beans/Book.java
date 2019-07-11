@@ -39,7 +39,24 @@ public class Book {
     private List<Author> author;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Category.class)
+    @JoinTable(name = "book_category",
+            joinColumns = @JoinColumn(name = "book_id",
+                    nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "category_id",
+                    nullable = false,
+                    updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
    // @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
    //         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> category;
