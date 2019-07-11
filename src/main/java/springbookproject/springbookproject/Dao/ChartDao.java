@@ -62,9 +62,21 @@ public class ChartDao {
                 .setParameter("id", id).getSingleResult();
     }*/
 
-    public List<Book> getBookList(Long user_id) {
+    public List<Book> getBookList(User user) {
         //return entityManager.createQuery("SELECT c FROM chart_book_list_table c").getResultList();
 
-        return  entityManager.createNativeQuery("SELECT c FROM book_chart c").getResultList();
+        Long chart_id = user.getChart().getId();
+        return  entityManager.createNativeQuery("SELECT c.book_id FROM book_chart c WHERE chart_id = :chart_id")
+                .setParameter("chart_id", chart_id).getResultList();
+    }
+
+    public List<Chart> getByUser(Long userId) {
+        return  entityManager.createNativeQuery("SELECT c.id FROM chart c WHERE c.user_id = :userId")
+                .setParameter("userId", userId).getResultList();
+    }
+
+    public int getTotalPriceByUser(Long userId) {
+        return (int) entityManager.createNativeQuery("SELECT total_price FROM chart WHERE user_id = :userId")
+                .setParameter("userId", userId).getSingleResult();
     }
 }

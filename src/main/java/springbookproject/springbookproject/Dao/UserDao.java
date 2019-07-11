@@ -1,12 +1,14 @@
 package springbookproject.springbookproject.Dao;
 
 import org.springframework.stereotype.Repository;
+import springbookproject.springbookproject.Beans.Book;
 import springbookproject.springbookproject.Beans.Chart;
 import springbookproject.springbookproject.Beans.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -24,10 +26,21 @@ public class UserDao {
         }
     }
 
-    public void delete(User user) {
+    public void delete(User user, List<Book> books) {
         try {
-            if(entityManager.contains(user))
-            entityManager.remove(user);
+            if(entityManager.contains(user)) {
+            //    for(int i=0; i<books.size(); i++) {
+                  //  books.get(i).setChart(null);
+        //            books.get(i).getChart().clear();
+                  //  books.get(i).setChart(null);
+           //         books.get(i).getChart().get(i).setBook(null);
+
+            //    }
+
+
+                entityManager.remove(user);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,4 +64,6 @@ public class UserDao {
     public User getById(Long id) {
         return (User) entityManager.find(User.class, id);
     }
+
+
 }

@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping("/delete")
     public String delete(@RequestBody UserModel userModel) {
         try {
-            userDao.delete(userDao.getById(userModel.getId()));
+            userDao.delete(userDao.getById(userModel.getId()), userDao.getById(userModel.getId()).getChart().getBook());
             return "user silme basarili";
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,5 +54,8 @@ public class UserController {
     @GetMapping(value = "/getId/{id}")
     public User getById(@PathVariable Long id) {
         return userDao.getById(id);
+
     }
+
 }
+

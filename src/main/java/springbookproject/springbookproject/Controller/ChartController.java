@@ -99,6 +99,16 @@ public class ChartController {
     public List<Book> getBookList(@PathVariable Long user_id) {
         //return entityManager.createQuery("SELECT c FROM chart_book_list_table c").getResultList();
 
-        return  chartDao.getBookList(user_id);
+        return  chartDao.getBookList(userDao.getById(user_id));
+    }
+
+    @GetMapping(value = "/getChart/{id}")
+    public List<Chart> getByUser(@PathVariable Long id) {
+        return chartDao.getByUser(id);
+    }
+
+    @RequestMapping(value = "/getTotalPrice/{userId}", method = RequestMethod.GET)
+    public int getTotalPriceByUser(@PathVariable Long userId) {
+        return chartDao.getTotalPriceByUser(userId);
     }
 }
