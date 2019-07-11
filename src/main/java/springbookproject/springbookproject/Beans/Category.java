@@ -17,7 +17,25 @@ public class Category {
     private String category;
 
 
-    @ManyToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Book.class)
+    @JoinTable(name = "book_category",
+            joinColumns = @JoinColumn(name = "category_id",
+                    nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "book_id",
+                    nullable = false,
+                    updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    //@ManyToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Book> book;
 
     public Category() {
