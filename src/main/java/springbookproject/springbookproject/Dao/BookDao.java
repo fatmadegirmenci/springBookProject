@@ -3,6 +3,7 @@ package springbookproject.springbookproject.Dao;
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Beans.Author;
 import springbookproject.springbookproject.Beans.Book;
+import springbookproject.springbookproject.Beans.Category;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -56,5 +57,37 @@ public class BookDao {
     public List<Book> listByPrice() {
         return (List<Book>) entityManager.createNativeQuery("SELECT id FROM book b ORDER BY price ASC")
                 .getResultList();
+    }
+
+    public void addAuthor(Book book, Author author) {
+        try {
+            book.getAuthor().add(author);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAuthor(Book book, Author author) {
+        try {
+            book.getAuthor().remove(author);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCategory(Book book, Category category) {
+        try {
+            book.getCategory().add(category);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteCategory(Book book, Category category) {
+        try {
+            book.getCategory().remove(category);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

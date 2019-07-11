@@ -28,6 +28,9 @@ public class BookController {
     @Autowired
     ChartDao chartDao;
 
+    @Autowired
+    CategoryDao categoryDao;
+
     @PostMapping(value = "/create")
     public String create(@RequestBody BookModel bookModel) {
         try {
@@ -68,6 +71,74 @@ public class BookController {
             e.printStackTrace();
             return "kitap silme islemi basarisiz";
         }
+    }
+
+    @PostMapping(value = "{bookId}/addAuthor/{authorId}")
+    public String addAuthor(@PathVariable Long bookId, @PathVariable Long authorId) {
+        try {
+            Book book = bookDao.getById(bookId);
+
+            Author author = authorDao.getById(authorId);
+            //    book.getAuthor().add(author);
+
+            bookDao.addAuthor(book, author);
+
+            return "kitaba yazar ekleme basarili";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "kitaba yazar ekleme basarisiz";
+    }
+
+    @PostMapping(value = "{bookId}/deleteAuthor/{authorId}")
+    public String deleteAuthor(@PathVariable Long bookId, @PathVariable Long authorId) {
+        try {
+            Author author = authorDao.getById(authorId);
+            Book book = bookDao.getById(bookId);
+
+            bookDao.deleteAuthor(book, author);
+
+            return "yazardan kitap silme basarili";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "yazardan kitap silme basarisiz";
+    }
+
+    @PostMapping(value = "{bookId}/addCategory/{categoryId}")
+    public String addCategory(@PathVariable Long bookId, @PathVariable Long categoryId) {
+        try {
+            Book book = bookDao.getById(bookId);
+
+            Category category = categoryDao.getById(categoryId);
+            //    book.getAuthor().add(author);
+
+            bookDao.addCategory(book, category);
+
+            return "kitaba kategori ekleme basarili";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "kitaba kategori ekleme basarisiz";
+    }
+
+    @PostMapping(value = "{bookId}/deleteCategory/{categoryId}")
+    public String deleteCategory(@PathVariable Long bookId, @PathVariable Long categoryId) {
+        try {
+            Category category = categoryDao.getById(categoryId);
+            Book book = bookDao.getById(bookId);
+
+            bookDao.deleteCategory(book, category);
+
+            return "kitaptan kategori silme basarili";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "kitaptan kategori silme basarisiz";
     }
 
     @GetMapping(value = "/getId/{id}")
