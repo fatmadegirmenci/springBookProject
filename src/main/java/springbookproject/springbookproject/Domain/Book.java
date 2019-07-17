@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Beans;
+package springbookproject.springbookproject.Domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,73 +32,38 @@ public class Book {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade =
-                    {
-                            CascadeType.DETACH,
-                            CascadeType.MERGE,
-                            CascadeType.REFRESH,
-                            CascadeType.PERSIST
-                    },
-            targetEntity = Author.class)
-    @JoinTable(name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id",
-                    nullable = false,
-                    updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "author_id",
-                    nullable = false,
-                    updatable = false),
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Author.class)
+    @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "author_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
- //   @ManyToMany(cascade = CascadeType.ALL)
- //   @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
-  //          inverseJoinColumns = @JoinColumn(name = "author_id"))
+    //   @ManyToMany(cascade = CascadeType.ALL)
+    //   @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
+    //          inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> author;
 
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade =
-                    {
-                            CascadeType.DETACH,
-                            CascadeType.MERGE,
-                            CascadeType.REFRESH,
-                            CascadeType.PERSIST
-                    },
-            targetEntity = Category.class)
-    @JoinTable(name = "book_category",
-            joinColumns = @JoinColumn(name = "book_id",
-                    nullable = false,
-                    updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "category_id",
-                    nullable = false,
-                    updatable = false),
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Category.class)
+    @JoinTable(name = "book_category", joinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "category_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-   // @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
-   //         inverseJoinColumns = @JoinColumn(name = "category_id"))
+    // @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
+    //         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> category;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade =
-                    {
-                            CascadeType.DETACH,
-                            CascadeType.MERGE,
-                            CascadeType.REFRESH,
-                            CascadeType.PERSIST
-                    },
-            targetEntity = Chart.class)
-    @JoinTable(name = "book_chart",
-            inverseJoinColumns = @JoinColumn(name = "chart_id",
-                    nullable = false,
-                    updatable = false),
-            joinColumns = @JoinColumn(name = "book_id",
-                    nullable = false,
-                    updatable = false),
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Cart.class)
+    @JoinTable(name = "book_cart", inverseJoinColumns = @JoinColumn(name = "cart_id", nullable = false, updatable = false),
+            joinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    private List<Chart> chart;
+    private List<Cart> cart;
 
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "book")
     private Inventory inventory;
 
 
@@ -107,7 +72,7 @@ public class Book {
 
 
     public Book(@NotNull String bookName, @NotNull String code, @NotNull Date publishDate, @NotNull int price,
-                @NotNull Date updateDate, List<Author> author, List<Category> category, List<Chart> chart, Inventory inventory) {
+                @NotNull Date updateDate, List<Author> author, List<Category> category, List<Cart> cart, Inventory inventory) {
         this.bookName = bookName;
         this.code = code;
         this.publishDate = publishDate;
@@ -115,16 +80,16 @@ public class Book {
         this.updateDate = updateDate;
         this.author = author;
         this.category = category;
-        this.chart = chart;
+        this.cart = cart;
         this.inventory = inventory;
     }
 
-    public List<Chart> getChart() {
-        return chart;
+    public List<Cart> getCart() {
+        return cart;
     }
 
-    public void setChart(List<Chart> chart) {
-        this.chart = chart;
+    public void setCart(List<Cart> cart) {
+        this.cart = cart;
     }
 
     public Long getId() {

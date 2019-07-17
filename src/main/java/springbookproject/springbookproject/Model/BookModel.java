@@ -1,9 +1,9 @@
 package springbookproject.springbookproject.Model;
 
-import springbookproject.springbookproject.Beans.Author;
-import springbookproject.springbookproject.Beans.Category;
-import springbookproject.springbookproject.Beans.Chart;
-import springbookproject.springbookproject.Beans.Inventory;
+import springbookproject.springbookproject.Domain.Author;
+import springbookproject.springbookproject.Domain.Cart;
+import springbookproject.springbookproject.Domain.Category;
+import springbookproject.springbookproject.Domain.Inventory;
 
 import java.util.Date;
 import java.util.List;
@@ -19,12 +19,12 @@ public class BookModel {
     private List<Author> author;
     private List<Category> category;
     private Inventory inventory;
-    private List<Chart> chart;
+    private List<Cart> cart;
 
     public BookModel() {
     }
 
-    public BookModel(String bookName, String code, Date publishDate, int price, Date updateDate, List<Author> author, List<Category> category, Inventory inventory, List<Chart> chart) {
+    public BookModel(String bookName, String code, Date publishDate, int price, Date updateDate, List<Author> author, List<Category> category, Inventory inventory, List<Cart> cart) {
         this.bookName = bookName;
         this.code = code;
         this.publishDate = publishDate;
@@ -33,15 +33,15 @@ public class BookModel {
         this.author = author;
         this.category = category;
         this.inventory = inventory;
-        this.chart = chart;
+        this.cart = cart;
     }
 
-    public List<Chart> getChart() {
-        return chart;
+    public List<Cart> getCart() {
+        return cart;
     }
 
-    public void setChart(List<Chart> chart) {
-        this.chart = chart;
+    public void setCart(List<Cart> cart) {
+        this.cart = cart;
     }
 
     public Long getId() {

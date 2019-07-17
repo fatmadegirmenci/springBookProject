@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Dao;
+package springbookproject.springbookproject.Service;
 
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
@@ -6,8 +6,7 @@ import springbookproject.springbookproject.Domain.Category;
 
 import java.util.List;
 
-public interface BookDao {
-
+public interface BookService {
     public void create(Book book);
 
     public void delete(Book book);
@@ -29,4 +28,5 @@ public interface BookDao {
     public void addCategory(Book book, Category category);
 
     public void deleteCategory(Book book, Category category);
+
 }
