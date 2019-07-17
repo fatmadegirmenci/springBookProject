@@ -2,35 +2,37 @@ package springbookproject.springbookproject.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springbookproject.springbookproject.Beans.Chart;
-import springbookproject.springbookproject.Beans.User;
-import springbookproject.springbookproject.Dao.ChartDao;
-import springbookproject.springbookproject.Dao.UserDao;
-import springbookproject.springbookproject.Model.ChartModel;
+import springbookproject.springbookproject.Domain.Cart;
+import springbookproject.springbookproject.Domain.User;
 import springbookproject.springbookproject.Model.UserModel;
+import springbookproject.springbookproject.Service.CartServiceImpl;
+import springbookproject.springbookproject.Service.UserServiceImpl;
+
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/user")
+@Transactional
 public class UserController {
 
     @Autowired
-    UserDao userDao;
+    UserServiceImpl userService;
 
     @Autowired
-    ChartDao chartDao;
+    CartServiceImpl cartService;
 
     @PostMapping("/create")
     public String create(@RequestBody UserModel userModel) {
         try {
 
             User user = new User(userModel.getFirstName(), userModel.getLastName(),
-                    userModel.getRegisterDate(), userModel.getAddress(), userModel.getChart());
+                    userModel.getRegisterDate(), userModel.getAddress(), userModel.getCart());
 
-            Chart chart = new Chart(50, user);
-            chartDao.create(chart);
+            Cart cart = new Cart(50, user);
+        //    cartService.create(cart);
 
-            user.setChart(chart);
-            userDao.create(user, chart);
+            user.setCart(cart);
+            userService.create(user, cart);
 
             return "user ekleme basarili";
         } catch (Exception e) {
@@ -43,7 +45,7 @@ public class UserController {
     @PostMapping("/delete")
     public String delete(@RequestBody UserModel userModel) {
         try {
-            userDao.delete(userDao.getById(userModel.getId()), userDao.getById(userModel.getId()).getChart().getBook());
+            userService.delete(userService.getById(userModel.getId()), userService.getById(userModel.getId()).getCart().getBook());
             return "user silme basarili";
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +55,7 @@ public class UserController {
 
     @GetMapping(value = "/getId/{id}")
     public User getById(@PathVariable Long id) {
-        return userDao.getById(id);
+        return userService.getById(id);
 
     }
 

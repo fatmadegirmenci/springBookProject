@@ -1,9 +1,10 @@
-package springbookproject.springbookproject.Dao;
+package springbookproject.springbookproject.Service;
 
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Category;
 
-public interface CategoryDao {
+public interface CategoryService {
+
     public void create(Category category);
 
     public void delete(Category category);

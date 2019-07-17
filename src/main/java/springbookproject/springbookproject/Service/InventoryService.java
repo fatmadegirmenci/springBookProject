@@ -1,10 +1,9 @@
-package springbookproject.springbookproject.Dao;
+package springbookproject.springbookproject.Service;
 
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Inventory;
 
-public interface InventoryDao {
-
+public interface InventoryService {
     public void create(Inventory inventory);
 
     public void addBook(Book book);

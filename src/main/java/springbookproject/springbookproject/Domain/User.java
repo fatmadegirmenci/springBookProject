@@ -1,4 +1,6 @@
-package springbookproject.springbookproject.Beans;
+package springbookproject.springbookproject.Domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,18 +30,19 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Chart chart;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    private Cart cart;
 
     public User() {
     }
 
-    public User(@NotNull String firstName, @NotNull String lastName, @NotNull Date registerDate, @NotNull String address, Chart chart) {
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull Date registerDate, @NotNull String address, Cart cart) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.registerDate = registerDate;
         this.address = address;
-        this.chart = chart;
+        this.cart = cart;
     }
 
     public Long getId() {
@@ -82,11 +85,11 @@ public class User {
         this.address = address;
     }
 
-    public Chart getChart() {
-        return chart;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setChart(Chart chart) {
-        this.chart = chart;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

@@ -1,4 +1,4 @@
-package springbookproject.springbookproject.Dao;
+package springbookproject.springbookproject.Service;
 
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Cart;
@@ -6,7 +6,7 @@ import springbookproject.springbookproject.Domain.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserService {
 
     public void create(User user, Cart cart);
 

@@ -1,8 +1,8 @@
 package springbookproject.springbookproject.Model;
 
-//import springbookproject.springbookproject.Beans.Chart;
+//import springbookproject.springbookproject.Domain.Cart;
 
-import springbookproject.springbookproject.Beans.Chart;
+import springbookproject.springbookproject.Domain.Cart;
 
 import java.util.Date;
 
@@ -13,17 +13,17 @@ public class UserModel {
     private String lastName;
     private Date registerDate;
     private String address;
-    private Chart chart;
+    private Cart cart;
 
     public UserModel() {
     }
 
-    public UserModel(String firstName, String lastName, Date registerDate, String address, Chart chart) {
+    public UserModel(String firstName, String lastName, Date registerDate, String address, Cart cart) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.registerDate = registerDate;
         this.address = address;
-        this.chart = chart;
+        this.cart = cart;
     }
 
     public Long getId() {
@@ -66,11 +66,11 @@ public class UserModel {
         this.address = address;
     }
 
-    public Chart getChart() {
-        return chart;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setChart(Chart chart) {
-        this.chart = chart;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

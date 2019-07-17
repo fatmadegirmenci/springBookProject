@@ -1,8 +1,7 @@
-package springbookproject.springbookproject.Beans;
+package springbookproject.springbookproject.Domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 //@Table(name = "inventory_table")

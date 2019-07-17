@@ -1,8 +1,12 @@
 package springbookproject.springbookproject.Model;
 
-import springbookproject.springbookproject.Beans.Book;
+import springbookproject.springbookproject.Domain.Book;
 
 public class InventoryModel {
+
+    private Long id;
+    private int numberOfBook;
+    private Book book;
 
     public InventoryModel() {
     }
@@ -11,12 +15,6 @@ public class InventoryModel {
         this.numberOfBook = numberOfBook;
         this.book = book;
     }
-
-
-
-    private Long id;
-    private int numberOfBook;
-    private Book book;
 
     public Long getId() {
         return id;

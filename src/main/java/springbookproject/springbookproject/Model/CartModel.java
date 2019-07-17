@@ -1,27 +1,27 @@
 package springbookproject.springbookproject.Model;
 
-import springbookproject.springbookproject.Beans.Book;
-import springbookproject.springbookproject.Beans.User;
+import springbookproject.springbookproject.Domain.Book;
+import springbookproject.springbookproject.Domain.User;
 
 import java.util.List;
 
-public class ChartModel {
+public class CartModel {
 
     private Long id;
     private int totalPrice;
     private User user;
     private List<Book> book;
 
-    public ChartModel() {
+    public CartModel() {
     }
 
-    public ChartModel(int totalPrice, User user, List<Book> book) {
+    public CartModel(int totalPrice, User user, List<Book> book) {
         this.totalPrice = totalPrice;
         this.user = user;
         this.book = book;
     }
 
-    public ChartModel(int totalPrice, User user) {
+    public CartModel(int totalPrice, User user) {
         this.totalPrice = totalPrice;
         this.user = user;
     }
