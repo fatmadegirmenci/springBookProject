@@ -2,32 +2,32 @@ package springbookproject.springbookproject.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springbookproject.springbookproject.Beans.Author;
-import springbookproject.springbookproject.Beans.Book;
-import springbookproject.springbookproject.Dao.AuthorDao;
-import springbookproject.springbookproject.Dao.BookDao;
+import springbookproject.springbookproject.Domain.Author;
+import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Model.AuthorModel;
+import springbookproject.springbookproject.Service.AuthorServiceImpl;
+import springbookproject.springbookproject.Service.BookServiceImpl;
+
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/author")
+@Transactional
 public class AuthorController {
 
     @Autowired
-    AuthorDao authorDao;
+    AuthorServiceImpl authorService;
 
     @Autowired
-    BookDao bookDao;
+    BookServiceImpl bookService;
 
     @PostMapping("/create")
     public String create(@RequestBody AuthorModel authorModel) {
         try {
+
             Author author = new Author(authorModel.getFirstName(), authorModel.getLastName(), authorModel.getCountry(),
                     authorModel.getBook());
-            authorDao.create(author);
-
-         //   for(int i=0; i<author.getBook().size(); i++) {
-           //     bookDao.create(author.getBook().get(i));
-            //}
+            authorService.create(author);
 
             return "author olusturuldu";
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class AuthorController {
     @PostMapping("/delete")
     public String delete(@RequestBody AuthorModel authorModel) {
         try {
-            authorDao.delete(authorDao.getById(authorModel.getId()));
+            authorService.delete(authorService.getById(authorModel.getId()));
 
             return "author silindi";
         } catch (Exception e) {
@@ -53,12 +53,12 @@ public class AuthorController {
     @PostMapping(value = "{authorId}/addBook/{bookId}")
     public String addBook(@PathVariable Long authorId, @PathVariable Long bookId) {
         try {
-            Book book = bookDao.getById(bookId);
+            Book book = bookService.getById(bookId);
 
-            Author author = authorDao.getById(authorId);
-        //    book.getAuthor().add(author);
+            Author author = authorService.getById(authorId);
+            //    book.getAuthor().add(author);
 
-            authorDao.addBook(book, author);
+            authorService.addBook(book, author);
 
             return "yazara kitap ekleme basarili";
         } catch (Exception e) {
@@ -71,10 +71,10 @@ public class AuthorController {
     @PostMapping(value = "{authorId}/deleteBook/{book_id}")
     public String deleteBook(@PathVariable Long authorId, @PathVariable Long book_id) {
         try {
-            Author author = authorDao.getById(authorId);
-            Book book = bookDao.getById(book_id);
+            Author author = authorService.getById(authorId);
+            Book book = bookService.getById(book_id);
 
-            authorDao.deleteBook(book, author);
+            authorService.deleteBook(book, author);
 
             return "yazardan kitap silme basarili";
         } catch (Exception e) {
@@ -86,9 +86,6 @@ public class AuthorController {
 
     @GetMapping(value = "/getId/{id}")
     public Author getById(@PathVariable Long id) {
-        return authorDao.getById(id);
+        return authorService.getById(id);
     }
-  //  @GetMapping(value = "getBook/")
-   // public Author getByBook
-
 }

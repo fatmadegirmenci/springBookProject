@@ -1,6 +1,6 @@
 package springbookproject.springbookproject.Model;
 
-import springbookproject.springbookproject.Beans.Book;
+import springbookproject.springbookproject.Domain.Book;
 
 import java.util.List;
 

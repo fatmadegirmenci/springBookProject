@@ -1,12 +1,11 @@
-package springbookproject.springbookproject.Dao;
+package springbookproject.springbookproject.Service;
 
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
 
 import java.util.List;
 
-public interface AuthorDao {
-
+public interface AuthorService {
     public void create(Author author);
 
     public void delete(Author author);
@@ -18,5 +17,4 @@ public interface AuthorDao {
     public Author getById(Long id);
 
     public List getBookList(Long user_id);
-
 }
