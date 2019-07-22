@@ -18,7 +18,7 @@ public class CategoryDaoImpl implements CategoryDao{
     @Override
     public void create(Category category) {
         try {
-            entityManager.merge(category);
+            entityManager.persist(category);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +38,7 @@ public class CategoryDaoImpl implements CategoryDao{
     @Override
     public void addBook(Book book, Category category) {
         try {
+           // book.getCategory().add(category);
             category.getBook().add(book);
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +48,17 @@ public class CategoryDaoImpl implements CategoryDao{
     @Override
     public void deleteBook(Book book, Category category) {
         try {
-            category.getBook().remove(book);
+      //      int i;
+              category.getBook().remove(book);
+    //        category.getBook().remove(book);
+         //   book.getCategory().remove(category);
+       //     category.getBook().remove(book);
+          //  for(i=0; i<category.getBook().size(); i++) {
+         //       if(category.getBook().get(i) == book) {
+         //           break;
+         //       }
+         //   }
+      //      entityManager.remove(category.getBook().get(i));
         } catch (Exception e) {
             e.printStackTrace();
         }
