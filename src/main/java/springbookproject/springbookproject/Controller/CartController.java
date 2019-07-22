@@ -31,8 +31,11 @@ public class CartController {
             User user = cartService.getById(cartId).getUser();
 
             Cart cart = user.getCart();
+            int totalPrice = cart.getTotalPrice() + bookService.getById(bookId).getPrice();
 
+            cart.setTotalPrice(totalPrice);
             cartService.addBook(book, user);
+
 
             return "sepete kitap ekleme basarili";
         } catch (Exception e) {
@@ -46,7 +49,10 @@ public class CartController {
     public String deleteBook(@PathVariable Long cartId, @PathVariable Long book_id) {
         try {
             Book book = bookService.getById(book_id);
-            cartService.deleteBook(book);
+            Cart cart = cartService.getById(cartId);
+            int totalPrice = cart.getTotalPrice() - bookService.getById(book_id).getPrice();
+            cart.setTotalPrice(totalPrice);
+            cartService.deleteBook(book, cart);
 
             return "sepetten kitap silme basarili";
         } catch (Exception e) {

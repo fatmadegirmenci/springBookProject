@@ -1,6 +1,9 @@
 package springbookproject.springbookproject.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,12 +24,15 @@ public class Cart {
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
+    //@JsonIgnoreProperties("cart")
     @JsonIgnore
+   // @Fetch(value = FetchMode.SUBSELECT)
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Book.class)
     @JoinTable(name = "book_cart", joinColumns = @JoinColumn(name = "cart_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT), inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+   // @Fetch(FetchMode.JOIN)
     private List<Book> book;
 
     public Cart() {

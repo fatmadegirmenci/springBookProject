@@ -11,7 +11,7 @@ public interface CartService {
 
     public void addBook(Book book, User user);
 
-    public void deleteBook(Book book) ;
+    public void deleteBook(Book book, Cart cart) ;
 
     public Cart getById(Long id) ;
 
