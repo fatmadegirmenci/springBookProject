@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Inventory;
 import springbookproject.springbookproject.Model.BookModel;
+import springbookproject.springbookproject.Service.BookServiceImpl;
 import springbookproject.springbookproject.Service.InventoryServiceImpl;
 import javax.transaction.Transactional;
 
@@ -15,15 +16,22 @@ public class InventoryController {
 
     @Autowired
     InventoryServiceImpl inventoryService;
+    @Autowired
+    BookServiceImpl bookService;
 
     @PostMapping(value = "/addBook")
     public String addBook(@RequestBody BookModel bookModel) {
         try {
-            Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
+       /*     Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
                     bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
-                    bookModel.getCategory(), bookModel.getCart(), bookModel.getInventory());
+                    bookModel.getCategory(), bookModel.getCart(), bookModel.getInventory());*/
 
-            inventoryService.addBook(book);
+            Book book = bookService.getById(bookModel.getId());
+
+        //    if(bookService.isExist(book) == null)
+          //      inventoryService.addBook(book);
+          //  else
+                inventoryService.increaseBookCount(book.getId());
 
             return "inventory addbook basarili";
         } catch (Exception e) {
@@ -36,7 +44,16 @@ public class InventoryController {
     @PostMapping(value = "/deleteBook")
     public String deleteBook(@RequestBody BookModel bookModel) {
         try {
-            inventoryService.deleteBook(bookModel.getInventory().getBook());
+
+            Book book = bookService.getById(bookModel.getId());
+
+            if(book.getInventory().getNumberOfBook() == 1)
+                bookService.delete(book);
+            else
+                inventoryService.decreaseBookCount(book.getId());
+
+
+          //  inventoryService.deleteBook(bookModel.getInventory().getBook());
             return "inventory deletebook basarili";
         } catch (Exception e) {
             e.printStackTrace();

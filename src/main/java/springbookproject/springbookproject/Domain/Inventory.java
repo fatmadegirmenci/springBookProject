@@ -1,5 +1,7 @@
 package springbookproject.springbookproject.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -16,6 +18,7 @@ public class Inventory {
     private int numberOfBook;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("inventory")
     private Book book;
 
     public Inventory(@NotNull int numberOfBook, Book book) {

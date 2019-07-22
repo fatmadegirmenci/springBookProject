@@ -3,10 +3,12 @@ package springbookproject.springbookproject.Dao;
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Inventory;
+import springbookproject.springbookproject.Service.InventoryService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -18,7 +20,7 @@ public class InventoryDaoImpl implements InventoryDao {
     @Override
     public void create(Inventory inventory) {
         try {
-            entityManager.merge(inventory);
+            entityManager.persist(inventory);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,4 +80,5 @@ public class InventoryDaoImpl implements InventoryDao {
         book.getInventory().setNumberOfBook(currentNumOfBook);
 
     }
+
 }

@@ -6,7 +6,11 @@ import springbookproject.springbookproject.Dao.InventoryDaoImpl;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Inventory;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 @Component
+@Transactional
 public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
@@ -46,4 +50,5 @@ public class InventoryServiceImpl implements InventoryService {
     public void increaseBookCount(Long book_id) {
         inventoryDao.increaseBookCount(book_id);
     }
+
 }
