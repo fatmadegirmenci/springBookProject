@@ -28,7 +28,7 @@ public class UserController {
             User user = new User(userModel.getFirstName(), userModel.getLastName(),
                     userModel.getRegisterDate(), userModel.getAddress(), userModel.getCart());
 
-            Cart cart = new Cart(50, user);
+            Cart cart = new Cart(0, user);
         //    cartService.create(cart);
 
             user.setCart(cart);

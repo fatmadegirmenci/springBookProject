@@ -1,6 +1,7 @@
 package springbookproject.springbookproject.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,7 +32,7 @@ public class User {
     private String address;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonIgnore
+    @JsonIgnoreProperties("user")
     private Cart cart;
 
     public User() {
