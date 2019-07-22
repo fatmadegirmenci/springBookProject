@@ -1,5 +1,11 @@
 package springbookproject.springbookproject.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -38,9 +44,13 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+   // @Fetch(FetchMode.JOIN)
     //   @ManyToMany(cascade = CascadeType.ALL)
     //   @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
     //          inverseJoinColumns = @JoinColumn(name = "author_id"))
+    //@JsonIgnoreProperties("book")
+    //@Transient
+     @JsonIgnore
     private List<Author> author;
 
 
@@ -52,6 +62,10 @@ public class Book {
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     // @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
     //         inverseJoinColumns = @JoinColumn(name = "category_id"))
+    //@JsonIgnoreProperties("book")
+    //@Fetch(value = FetchMode.SUBSELECT)
+    //@Fetch(FetchMode.JOIN)
+    @JsonIgnore
     private List<Category> category;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -60,10 +74,15 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+  //  @JsonIgnoreProperties("book")
+   // @Fetch(value = FetchMode.SUBSELECT)
+    //@Fetch(FetchMode.JOIN)
+    @JsonIgnore
     private List<Cart> cart;
 
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "book")
+    @JsonIgnoreProperties("book")
     private Inventory inventory;
 
 

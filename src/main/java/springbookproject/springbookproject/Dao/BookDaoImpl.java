@@ -1,5 +1,6 @@
 package springbookproject.springbookproject.Dao;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
@@ -20,17 +21,19 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void create(Book book) {
         try {
-            entityManager.merge(book);
+            entityManager.persist(book);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
+    @Transactional
     public void delete(Book book) {
         try {
             if (entityManager.contains(book)) {
                 entityManager.remove(book);
+           //     entityManager.remove(entityManager.merge(book));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,6 +42,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book getById(Long id) {
+        //Hibernate.initialize();
         return entityManager.find(Book.class, id);
     }
 
@@ -100,5 +104,21 @@ public class BookDaoImpl implements BookDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Book> isExist(Book book) {
+        List<Book> result = entityManager.createQuery("SELECT b FROM Book b WHERE bookName = :bookName AND " +
+                "code = :code AND price = :price")
+                .setParameter("bookName", book.getBookName())
+                .setParameter("code", book.getCode())
+                .setParameter("price", book.getPrice())
+                .getResultList();
+        if(result.size() != 0) {
+
+            return result;
+        }
+
+        return null;
+
     }
 }

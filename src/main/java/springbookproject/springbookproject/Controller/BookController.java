@@ -33,11 +33,15 @@ public class BookController {
                     bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
                     bookModel.getCategory(), bookModel.getCart(), bookModel.getInventory());
 
-            Inventory inventory = new Inventory(1, book);
-           // inventoryService.create(inventory);
+            if(bookService.isExist(book) == null) {
+                Inventory inventory = new Inventory(1, book);
+                // inventoryService.create(inventory);
 
-            book.setInventory(inventory);
-            bookService.create(book);
+                book.setInventory(inventory);
+                bookService.create(book);
+            } else {
+                inventoryService.increaseBookCount(bookService.isExist(book).get(0).getId());
+            }
 
             return "kitap ekleme basarili";
         } catch (Exception e) {
@@ -49,7 +53,13 @@ public class BookController {
     @PostMapping(value = "/delete")
     public String delete(@RequestBody BookModel bookModel) {
         try {
-            bookService.delete(bookService.getById(bookModel.getId()));
+            Book book = bookService.getById(bookModel.getId());
+            if(book.getInventory().getNumberOfBook() == 1) {
+                bookService.delete(bookService.getById(book.getId()));
+            } else {
+                inventoryService.decreaseBookCount(bookService.getById(book.getId()).getId());
+            }
+
             return "kitap silme islemi basarili";
         } catch (Exception e) {
             e.printStackTrace();

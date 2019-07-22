@@ -6,9 +6,12 @@ import springbookproject.springbookproject.Dao.BookDaoImpl;
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Category;
+
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
+@Transactional
 public class BookServiceImpl implements BookService {
 
     @Autowired
@@ -67,5 +70,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteCategory(Book book, Category category) {
         bookDao.deleteCategory(book, category);
+    }
+
+    public List<Book> isExist(Book book){
+        return bookDao.isExist(book);
     }
 }
