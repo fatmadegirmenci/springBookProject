@@ -9,6 +9,7 @@ import springbookproject.springbookproject.Service.AuthorServiceImpl;
 import springbookproject.springbookproject.Service.BookServiceImpl;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/author")
@@ -88,4 +89,10 @@ public class AuthorController {
     public Author getById(@PathVariable Long id) {
         return authorService.getById(id);
     }
+
+    @GetMapping(value = "{authorId}/getBookList")
+    public List getBookList(@PathVariable Long authorId) {
+        return authorService.getBookList(authorId);
+    }
+
 }

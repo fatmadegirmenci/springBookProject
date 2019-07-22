@@ -39,7 +39,7 @@ public class AuthorServiceImpl implements AuthorService{
     }
 
     @Override
-    public List getBookList(Long user_id) {
-        return authorDao.getBookList(user_id);
+    public List getBookList(Long authorId) {
+        return authorDao.getBookList(authorId);
     }
 }
