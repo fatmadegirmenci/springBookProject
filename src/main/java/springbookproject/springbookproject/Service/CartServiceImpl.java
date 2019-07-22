@@ -25,8 +25,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteBook(Book book) {
-        cartDao.deleteBook(book);
+    public void deleteBook(Book book, Cart cart) {
+        cartDao.deleteBook(book, cart);
     }
 
     @Override
