@@ -3,7 +3,6 @@ package springbookproject.springbookproject.Service;
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Category;
-
 import java.util.List;
 
 public interface BookService {
@@ -29,4 +28,6 @@ public interface BookService {
 
     public void deleteCategory(Book book, Category category);
 
-}
+    public List<Book> isExist(Book book);
+
+    }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springbookproject.springbookproject.Domain.*;
 import springbookproject.springbookproject.Model.BookModel;
+import springbookproject.springbookproject.Model.UserModel;
 import springbookproject.springbookproject.Service.*;
 
 import javax.transaction.Transactional;
@@ -26,113 +27,139 @@ public class BookController {
     @Autowired
     CategoryServiceImpl categoryService;
 
+    @Autowired
+    UserServiceImpl userService;
+
     @PostMapping(value = "/create")
     public String create(@RequestBody BookModel bookModel) {
-        try {
-            Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
-                    bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
-                    bookModel.getCategory(), bookModel.getCart(), bookModel.getInventory());
+        String role = userService.getByUserName(bookModel.getUserName()).getRole();
 
-            if(bookService.isExist(book) == null) {
-                Inventory inventory = new Inventory(1, book);
-                // inventoryService.create(inventory);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
 
-                book.setInventory(inventory);
-                bookService.create(book);
-            } else {
-                inventoryService.increaseBookCount(bookService.isExist(book).get(0).getId());
+                Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
+                        bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
+                        bookModel.getCategory(), bookModel.getCart(), bookModel.getInventory());
+
+                if (bookService.isExist(book) == null) {
+                    Inventory inventory = new Inventory(1, book);
+                    book.setInventory(inventory);
+                    bookService.create(book);
+                } else {
+                    inventoryService.increaseBookCount(bookService.isExist(book).get(0).getId());
+                }
+
+                return "kitap ekleme basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            return "kitap ekleme basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+            return "kitap ekleme basarisiz";
         }
-        return "kitap ekleme basarisiz";
+
+        return "yetki yok";
     }
 
     @PostMapping(value = "/delete")
     public String delete(@RequestBody BookModel bookModel) {
-        try {
-            Book book = bookService.getById(bookModel.getId());
-            if(book.getInventory().getNumberOfBook() == 1) {
-                bookService.delete(bookService.getById(book.getId()));
-            } else {
-                inventoryService.decreaseBookCount(bookService.getById(book.getId()).getId());
-            }
+        String role = userService.getByUserName(bookModel.getUserName()).getRole();
 
-            return "kitap silme islemi basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "kitap silme islemi basarisiz";
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Book book = bookService.getById(bookModel.getId());
+
+                if (book.getInventory().getNumberOfBook() == 1) {
+                    bookService.delete(bookService.getById(book.getId()));
+                } else {
+                    inventoryService.decreaseBookCount(bookService.getById(book.getId()).getId());
+                }
+
+                return "kitap silme islemi basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "kitap silme islemi basarisiz";
+            }
         }
+        return "yetki yok";
     }
 
     @PostMapping(value = "{bookId}/addAuthor/{authorId}")
-    public String addAuthor(@PathVariable Long bookId, @PathVariable Long authorId) {
-        try {
-            Book book = bookService.getById(bookId);
+    public String addAuthor(@RequestBody UserModel userModel, @PathVariable Long bookId, @PathVariable Long authorId) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
 
-            Author author = authorService.getById(authorId);
-            //    book.getAuthor().add(author);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Book book = bookService.getById(bookId);
+                Author author = authorService.getById(authorId);
+                bookService.addAuthor(book, author);
 
-            bookService.addAuthor(book, author);
+                return "kitaba yazar ekleme basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            return "kitaba yazar ekleme basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+            return "kitaba yazar ekleme basarisiz";
         }
-
-        return "kitaba yazar ekleme basarisiz";
+        return "yetki yok";
     }
 
     @PostMapping(value = "{bookId}/deleteAuthor/{authorId}")
-    public String deleteAuthor(@PathVariable Long bookId, @PathVariable Long authorId) {
-        try {
-            Author author = authorService.getById(authorId);
-            Book book = bookService.getById(bookId);
+    public String deleteAuthor(@RequestBody UserModel userModel, @PathVariable Long bookId, @PathVariable Long authorId) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
 
-            bookService.deleteAuthor(book, author);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Author author = authorService.getById(authorId);
+                Book book = bookService.getById(bookId);
+                bookService.deleteAuthor(book, author);
 
-            return "yazardan kitap silme basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+                return "yazardan kitap silme basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "yazardan kitap silme basarisiz";
         }
-
-        return "yazardan kitap silme basarisiz";
+        return "yetki yok";
     }
 
     @PostMapping(value = "{bookId}/addCategory/{categoryId}")
-    public String addCategory(@PathVariable Long bookId, @PathVariable Long categoryId) {
-        try {
-            Book book = bookService.getById(bookId);
+    public String addCategory(@RequestBody UserModel userModel, @PathVariable Long bookId, @PathVariable Long categoryId) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
 
-            Category category = categoryService.getById(categoryId);
-            //    book.getAuthor().add(author);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Book book = bookService.getById(bookId);
+                Category category = categoryService.getById(categoryId);
+                bookService.addCategory(book, category);
 
-            bookService.addCategory(book, category);
+                return "kitaba kategori ekleme basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            return "kitaba kategori ekleme basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+            return "kitaba kategori ekleme basarisiz";
         }
-
-        return "kitaba kategori ekleme basarisiz";
+        return "yetki yok";
     }
 
     @PostMapping(value = "{bookId}/deleteCategory/{categoryId}")
-    public String deleteCategory(@PathVariable Long bookId, @PathVariable Long categoryId) {
-        try {
-            Category category = categoryService.getById(categoryId);
-            Book book = bookService.getById(bookId);
+    public String deleteCategory(@RequestBody UserModel userModel, @PathVariable Long bookId, @PathVariable Long categoryId) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
 
-            bookService.deleteCategory(book, category);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Category category = categoryService.getById(categoryId);
+                Book book = bookService.getById(bookId);
+                bookService.deleteCategory(book, category);
 
-            return "kitaptan kategori silme basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+                return "kitaptan kategori silme basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "kitaptan kategori silme basarisiz";
         }
-
-        return "kitaptan kategori silme basarisiz";
+        return "yetki yok";
     }
 
     @GetMapping(value = "/getId/{id}")

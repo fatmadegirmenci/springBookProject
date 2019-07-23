@@ -29,13 +29,11 @@ public class CartController {
         try {
             Book book = bookService.getById(bookId);
             User user = cartService.getById(cartId).getUser();
-
             Cart cart = user.getCart();
-            int totalPrice = cart.getTotalPrice() + bookService.getById(bookId).getPrice();
 
+            int totalPrice = cart.getTotalPrice() + bookService.getById(bookId).getPrice();
             cart.setTotalPrice(totalPrice);
             cartService.addBook(book, user);
-
 
             return "sepete kitap ekleme basarili";
         } catch (Exception e) {
@@ -62,33 +60,13 @@ public class CartController {
         return "kitap silme basarisiz";
     }
 
-    /* @PostMapping(value = "/deleteBook/{book_id}")
-     public String deleteBook(@RequestBody List<BookModel> bookModel, @RequestBody UserModel userModel, @PathVariable Long book_id){
-         try {
-             //chartDao.deleteBook(chartDao.getById(userModel.getId()).getBook(), chartDao.getById(userModel.getId()).getUser());
-             for(int i=0; i< chartDao.getById(userModel.getId()).getBook().size(); i++) {
-                 if(chartDao.getById(userModel.getId()).getBook().get(i).getId() == book_id) {
-                     chartDao.deleteBook(chartDao.getById(userModel.getId()).getBook().get(i), userModel.getCart());
-                 }
-             }
-
-             return "sepetten kitap silme basarili";
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-
-         return "sepetten kitap silme basarisiz";
-     }
- */
     @GetMapping("/getId/{id}")
     public Cart getById(@PathVariable Long id) {
         return cartService.getById(id);
     }
 
-
     @RequestMapping(value = "/getList/{user_id}/list", method = RequestMethod.GET)
     public List<Book> getBookList(@PathVariable Long user_id) {
-
         return cartService.getBookList(userService.getById(user_id));
     }
 

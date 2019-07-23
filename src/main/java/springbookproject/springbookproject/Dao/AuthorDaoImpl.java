@@ -1,13 +1,8 @@
 package springbookproject.springbookproject.Dao;
 
-
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -20,15 +15,10 @@ public class AuthorDaoImpl implements AuthorDao {
     @PersistenceContext
     EntityManager entityManager;
 
-    private static SessionFactory sessionFactory;
-
-
     @Override
     public void create(Author author) {
         try {
             entityManager.persist(author);
-            //entityManager.flush();
-            //entityManager.clear();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,15 +28,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public void delete(Author author) {
         try {
             if (entityManager.contains(author)) {
-             //  objAgreement= em.find(Agreement.class, objAgreement.getId())
-                //em.remove(objAgreement);
-
-            //    author.getBook().removeAll(author.getBook());
-              //  entityManager.remove(author);
- //               entityManager.getTransaction().begin();
                 entityManager.remove(author);
-   //             entityManager.getTransaction().commit();
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +38,6 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public void addBook(Book book, Author author) {
         try {
-       //     author.getBook().add(book);
             book.getAuthor().add(author);
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,7 +47,6 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public void deleteBook(Book book, Author author) {
         try {
-            //author.getBook().remove(book);
             book.getAuthor().remove(author);
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,14 +55,8 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author getById(Long id) {
-     //   Author a =  entityManager.find(Author.class, id);
-     //   Hibernate.initialize(a.getBook());
-     //   return a;
-
-        return  entityManager.find(Author.class, id);
-      //  session.close();
+        return entityManager.find(Author.class, id);
     }
-
 
   /*  public Author getByBook(String book_name) {
         return (Author) entityManager.createQuery("SELECT a FROM Author a WHERE ")

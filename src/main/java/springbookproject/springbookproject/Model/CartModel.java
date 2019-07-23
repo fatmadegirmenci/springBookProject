@@ -2,7 +2,6 @@ package springbookproject.springbookproject.Model;
 
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.User;
-
 import java.util.List;
 
 public class CartModel {
@@ -25,6 +24,8 @@ public class CartModel {
         this.totalPrice = totalPrice;
         this.user = user;
     }
+
+
 
     public Long getId() {
         return id;
@@ -57,4 +58,6 @@ public class CartModel {
     public void setBook(List<Book> book) {
         this.book = book;
     }
+
+
 }

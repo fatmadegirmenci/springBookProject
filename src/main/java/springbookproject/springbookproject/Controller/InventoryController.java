@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Inventory;
 import springbookproject.springbookproject.Model.BookModel;
+import springbookproject.springbookproject.Model.UserModel;
 import springbookproject.springbookproject.Service.BookServiceImpl;
 import springbookproject.springbookproject.Service.InventoryServiceImpl;
+import springbookproject.springbookproject.Service.UserServiceImpl;
+
 import javax.transaction.Transactional;
 
 @RestController
@@ -18,48 +21,50 @@ public class InventoryController {
     InventoryServiceImpl inventoryService;
     @Autowired
     BookServiceImpl bookService;
+    @Autowired
+    UserServiceImpl userService;
 
     @PostMapping(value = "/addBook")
     public String addBook(@RequestBody BookModel bookModel) {
-        try {
-       /*     Book book = new Book(bookModel.getBookName(), bookModel.getCode(), bookModel.getPublishDate(),
-                    bookModel.getPrice(), bookModel.getUpdateDate(), bookModel.getAuthor(),
-                    bookModel.getCategory(), bookModel.getCart(), bookModel.getInventory());*/
+        String role = userService.getByUserName(bookModel.getUserName()).getRole();
 
-            Book book = bookService.getById(bookModel.getId());
-
-        //    if(bookService.isExist(book) == null)
-          //      inventoryService.addBook(book);
-          //  else
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Book book = bookService.getById(bookModel.getId());
                 inventoryService.increaseBookCount(book.getId());
 
-            return "inventory addbook basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                return "inventory addbook basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        return "inventory addbook basarisiz";
+            return "inventory addbook basarisiz";
+        }
+        return "yetki yok";
     }
 
     @PostMapping(value = "/deleteBook")
     public String deleteBook(@RequestBody BookModel bookModel) {
-        try {
+        String role = userService.getByUserName(bookModel.getUserName()).getRole();
 
-            Book book = bookService.getById(bookModel.getId());
+        if (role.equalsIgnoreCase("admin")) {
+            try {
 
-            if(book.getInventory().getNumberOfBook() == 1)
-                bookService.delete(book);
-            else
-                inventoryService.decreaseBookCount(book.getId());
+                Book book = bookService.getById(bookModel.getId());
 
+                if (book.getInventory().getNumberOfBook() == 1)
+                    bookService.delete(book);
+                else
+                    inventoryService.decreaseBookCount(book.getId());
 
-          //  inventoryService.deleteBook(bookModel.getInventory().getBook());
-            return "inventory deletebook basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+                return "inventory deletebook basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "inventory deletebook basarisiz";
         }
-
-        return "inventory deletebook basarisiz";
+        return "yetki yok";
     }
 
     @GetMapping(value = "/getId/{id}")
@@ -68,18 +73,40 @@ public class InventoryController {
     }
 
     @PostMapping(value = "/setBookCount/{bookId}/{numberOfBook}")
-    public void setBookCount(@PathVariable Long bookId, @PathVariable int numberOfBook) {
-        inventoryService.setBookCount(bookId, numberOfBook);
+    public String  setBookCount(@RequestBody UserModel userModel, @PathVariable Long bookId, @PathVariable int numberOfBook) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
+
+        if (role.equalsIgnoreCase("admin")) {
+            inventoryService.setBookCount(bookId, numberOfBook);
+            return (bookId+" kitabi " + numberOfBook + " tane olarak degistirildi");
+        } else {
+            return "yetki yok";
+        }
     }
 
     @PostMapping(value = "/decreaseBookCount/{book_id}")
-    public void decreaseBookCount(@PathVariable Long book_id) {
-        inventoryService.decreaseBookCount(book_id);
+    public String decreaseBookCount(@RequestBody UserModel userModel, @PathVariable Long book_id) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
+
+        if (role.equalsIgnoreCase("admin")) {
+            inventoryService.decreaseBookCount(book_id);
+            return (book_id +" kitabi bir azaltildi");
+
+        } else {
+            return "yetki yok";
+        }
+
     }
 
     @PostMapping(value = "/increaseBookCount/{book_id}")
-    public void increaseBookCount(@PathVariable Long book_id) {
-        inventoryService.increaseBookCount(book_id);
-    }
+    public String  increaseBookCount(@RequestBody UserModel userModel, @PathVariable Long book_id) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
 
+        if (role.equalsIgnoreCase("admin")) {
+            inventoryService.increaseBookCount(book_id);
+            return (book_id +" kitabi bir artirildi");
+        } else {
+            return "yetki yok";
+        }
+    }
 }

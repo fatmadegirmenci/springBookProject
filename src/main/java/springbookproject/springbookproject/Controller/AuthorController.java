@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Model.AuthorModel;
+import springbookproject.springbookproject.Model.UserModel;
 import springbookproject.springbookproject.Service.AuthorServiceImpl;
 import springbookproject.springbookproject.Service.BookServiceImpl;
+import springbookproject.springbookproject.Service.UserServiceImpl;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,68 +24,86 @@ public class AuthorController {
     @Autowired
     BookServiceImpl bookService;
 
+    @Autowired
+    UserServiceImpl userService;
+
     @PostMapping("/create")
     public String create(@RequestBody AuthorModel authorModel) {
-        try {
+        String role = userService.getByUserName(authorModel.getUserName()).getRole();
 
-            Author author = new Author(authorModel.getFirstName(), authorModel.getLastName(), authorModel.getCountry(),
-                    authorModel.getBook());
-            authorService.create(author);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Author author = new Author(authorModel.getFirstName(), authorModel.getLastName(), authorModel.getCountry(),
+                        authorModel.getBook());
+                authorService.create(author);
+                return "author olusturuldu";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            return "author olusturuldu";
-        } catch (Exception e) {
-            e.printStackTrace();
+            return "author olustururken hata";
         }
-
-        return "author olustururken hata";
+        return "yetki yok";
     }
 
     @PostMapping("/delete")
     public String delete(@RequestBody AuthorModel authorModel) {
-        try {
-            authorService.delete(authorService.getById(authorModel.getId()));
+        String role = userService.getByUserName(authorModel.getUserName()).getRole();
 
-            return "author silindi";
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                authorService.delete(authorService.getById(authorModel.getId()));
+
+                return "author silindi";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "author silinemedi";
         }
-
-        return "author silinemedi";
+        return "yetki yok";
     }
 
     @PostMapping(value = "{authorId}/addBook/{bookId}")
-    public String addBook(@PathVariable Long authorId, @PathVariable Long bookId) {
-        try {
-            Book book = bookService.getById(bookId);
+    public String addBook(@RequestBody UserModel userModel, @PathVariable Long authorId, @PathVariable Long bookId) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
 
-            Author author = authorService.getById(authorId);
-            //    book.getAuthor().add(author);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Book book = bookService.getById(bookId);
+                Author author = authorService.getById(authorId);
+                authorService.addBook(book, author);
 
-            authorService.addBook(book, author);
+                return "yazara kitap ekleme basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            return "yazara kitap ekleme basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+            return "yazara kitap ekleme basarisiz";
         }
-
-        return "yazara kitap ekleme basarisiz";
+        return "yetki yok";
     }
 
     @PostMapping(value = "{authorId}/deleteBook/{book_id}")
-    public String deleteBook(@PathVariable Long authorId, @PathVariable Long book_id) {
-        try {
-            Author author = authorService.getById(authorId);
-            Book book = bookService.getById(book_id);
+    public String deleteBook(@RequestBody UserModel userModel, @PathVariable Long authorId, @PathVariable Long book_id) {
+        String role = userService.getByUserName(userModel.getUserName()).getRole();
 
-            authorService.deleteBook(book, author);
+        if (role.equalsIgnoreCase("admin")) {
+            try {
+                Author author = authorService.getById(authorId);
+                Book book = bookService.getById(book_id);
+                authorService.deleteBook(book, author);
 
-            return "yazardan kitap silme basarili";
-        } catch (Exception e) {
-            e.printStackTrace();
+                return "yazardan kitap silme basarili";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "yazardan kitap silme basarisiz";
         }
-
-        return "yazardan kitap silme basarisiz";
+        return "yetki yok";
     }
+
 
     @GetMapping(value = "/getId/{id}")
     public Author getById(@PathVariable Long id) {

@@ -2,7 +2,6 @@ package springbookproject.springbookproject.Service;
 
 import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Book;
-
 import java.util.List;
 
 public interface AuthorService {

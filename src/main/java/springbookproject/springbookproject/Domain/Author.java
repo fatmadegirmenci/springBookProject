@@ -1,17 +1,12 @@
 package springbookproject.springbookproject.Domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-//@Table(name = "author_table")
+//@Table(name = "author")
 public class Author {
 
     @Id
@@ -30,16 +25,13 @@ public class Author {
     @Column(name = "country")
     private String country;
 
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Book.class)
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "author_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-   // @Fetch(FetchMode.JOIN)
-    //@ManyToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    //@Transient
-   // @JsonIgnoreProperties("author")
     @JsonIgnore
     private List<Book> book;
 
@@ -53,7 +45,6 @@ public class Author {
         this.country = country;
         this.book = book;
     }
-
 
     public Long getId() {
         return id;

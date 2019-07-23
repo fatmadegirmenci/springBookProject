@@ -7,6 +7,7 @@ public class InventoryModel {
     private Long id;
     private int numberOfBook;
     private Book book;
+    private String userName;
 
     public InventoryModel() {
     }
@@ -14,6 +15,12 @@ public class InventoryModel {
     public InventoryModel(int numberOfBook, Book book) {
         this.numberOfBook = numberOfBook;
         this.book = book;
+    }
+
+    public InventoryModel(int numberOfBook, Book book, String userName) {
+        this.numberOfBook = numberOfBook;
+        this.book = book;
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -38,5 +45,13 @@ public class InventoryModel {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

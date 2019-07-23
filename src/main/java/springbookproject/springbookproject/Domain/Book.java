@@ -2,17 +2,12 @@ package springbookproject.springbookproject.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-//@Table(name = "book_table")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +18,7 @@ public class Book {
     private String bookName;
 
     @NotNull
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @NotNull
@@ -38,46 +33,35 @@ public class Book {
     @Column(name = "update_date")
     private Date updateDate;
 
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Author.class)
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "author_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-   // @Fetch(FetchMode.JOIN)
-    //   @ManyToMany(cascade = CascadeType.ALL)
-    //   @JoinTable(name = "book_author_table", joinColumns = @JoinColumn(name = "book_id"),
-    //          inverseJoinColumns = @JoinColumn(name = "author_id"))
-    //@JsonIgnoreProperties("book")
-    //@Transient
-     @JsonIgnore
     private List<Author> author;
 
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Category.class)
     @JoinTable(name = "book_category", joinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "category_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    // @JoinTable(name = "book_category_table", joinColumns = @JoinColumn(name = "book_id"),
-    //         inverseJoinColumns = @JoinColumn(name = "category_id"))
-    //@JsonIgnoreProperties("book")
-    //@Fetch(value = FetchMode.SUBSELECT)
-    //@Fetch(FetchMode.JOIN)
-    @JsonIgnore
+
     private List<Category> category;
 
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.PERSIST}, targetEntity = Cart.class)
     @JoinTable(name = "book_cart", inverseJoinColumns = @JoinColumn(name = "cart_id", nullable = false, updatable = false),
             joinColumns = @JoinColumn(name = "book_id", nullable = false, updatable = false),
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-  //  @JsonIgnoreProperties("book")
-   // @Fetch(value = FetchMode.SUBSELECT)
-    //@Fetch(FetchMode.JOIN)
-    @JsonIgnore
     private List<Cart> cart;
 
 
@@ -88,7 +72,6 @@ public class Book {
 
     public Book() {
     }
-
 
     public Book(@NotNull String bookName, @NotNull String code, @NotNull Date publishDate, @NotNull int price,
                 @NotNull Date updateDate, List<Author> author, List<Category> category, List<Cart> cart, Inventory inventory) {

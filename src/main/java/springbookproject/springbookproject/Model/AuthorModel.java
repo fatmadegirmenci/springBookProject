@@ -1,16 +1,15 @@
 package springbookproject.springbookproject.Model;
 
 import springbookproject.springbookproject.Domain.Book;
-
 import java.util.List;
 
 public class AuthorModel {
-
     private Long id;
     private String firstName;
     private String lastName;
     private String country;
     private List<Book> book;
+    private String userName;
 
     public AuthorModel() {
     }
@@ -20,6 +19,14 @@ public class AuthorModel {
         this.lastName = lastName;
         this.country = country;
         this.book = book;
+    }
+
+    public AuthorModel(String firstName, String lastName, String country, List<Book> book, String userName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.book = book;
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -60,5 +67,13 @@ public class AuthorModel {
 
     public void setBook(List<Book> book) {
         this.book = book;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

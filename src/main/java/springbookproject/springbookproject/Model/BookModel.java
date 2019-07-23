@@ -4,7 +4,6 @@ import springbookproject.springbookproject.Domain.Author;
 import springbookproject.springbookproject.Domain.Cart;
 import springbookproject.springbookproject.Domain.Category;
 import springbookproject.springbookproject.Domain.Inventory;
-
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +19,7 @@ public class BookModel {
     private List<Category> category;
     private Inventory inventory;
     private List<Cart> cart;
+    private String userName;
 
     public BookModel() {
     }
@@ -34,6 +34,19 @@ public class BookModel {
         this.category = category;
         this.inventory = inventory;
         this.cart = cart;
+    }
+
+    public BookModel(String bookName, String code, Date publishDate, int price, Date updateDate, List<Author> author, List<Category> category, Inventory inventory, List<Cart> cart, String userName) {
+        this.bookName = bookName;
+        this.code = code;
+        this.publishDate = publishDate;
+        this.price = price;
+        this.updateDate = updateDate;
+        this.author = author;
+        this.category = category;
+        this.inventory = inventory;
+        this.cart = cart;
+        this.userName = userName;
     }
 
     public List<Cart> getCart() {
@@ -114,5 +127,13 @@ public class BookModel {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

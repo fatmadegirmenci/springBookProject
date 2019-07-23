@@ -5,9 +5,7 @@ import org.springframework.stereotype.Component;
 import springbookproject.springbookproject.Dao.InventoryDaoImpl;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Inventory;
-
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Component
 @Transactional
@@ -23,7 +21,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public void addBook(Book book) {
-        inventoryDao.addBook(book);
+   //     inventoryDao.addBook(book);
     }
 
     @Override

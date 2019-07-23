@@ -72,6 +72,7 @@ public class BookServiceImpl implements BookService {
         bookDao.deleteCategory(book, category);
     }
 
+    @Override
     public List<Book> isExist(Book book){
         return bookDao.isExist(book);
     }
