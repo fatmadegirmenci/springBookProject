@@ -20,12 +20,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user, List<Book> books) {
-        userDao.delete(user, books);
+    public void delete(User user) {
+        userDao.delete(user);
     }
 
     @Override
     public User getById(Long id) {
         return userDao.getById(id);
+    }
+
+    @Override
+    public boolean checkUserName(String userName) {
+        return userDao.checkUserName(userName);
+    }
+
+    @Override
+    public boolean checkParola(String userName, int parola) {
+        return userDao.checkParola(userName, parola);
+    }
+
+    @Override
+    public User getByUserName(String userName) {
+        return userDao.getByUserName(userName);
     }
 }

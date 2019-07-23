@@ -24,13 +24,11 @@ public class UserController {
     @PostMapping("/create")
     public String create(@RequestBody UserModel userModel) {
         try {
-
-            User user = new User(userModel.getFirstName(), userModel.getLastName(),
-                    userModel.getRegisterDate(), userModel.getAddress(), userModel.getCart());
+            User user = new User(userModel.getFirstName(), userModel.getLastName(), userModel.getRegisterDate(),
+                    userModel.getAddress(), userModel.getRole(), userModel.getUserName(), userModel.getParola(),
+                    userModel.getCart());
 
             Cart cart = new Cart(0, user);
-        //    cartService.create(cart);
-
             user.setCart(cart);
             userService.create(user, cart);
 
@@ -45,7 +43,7 @@ public class UserController {
     @PostMapping("/delete")
     public String delete(@RequestBody UserModel userModel) {
         try {
-            userService.delete(userService.getById(userModel.getId()), userService.getById(userModel.getId()).getCart().getBook());
+            userService.delete(userService.getById(userModel.getId()));
             return "user silme basarili";
         } catch (Exception e) {
             e.printStackTrace();

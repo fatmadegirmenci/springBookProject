@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import springbookproject.springbookproject.Domain.Book;
 import springbookproject.springbookproject.Domain.Cart;
 import springbookproject.springbookproject.Domain.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -20,37 +19,18 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void create(User user, Cart cart) {
         try {
-         //   if(user.getId() == null)
-
-          //  entityManager.getTransaction().begin();
             entityManager.persist(user);
-       //     entityManager.getTransaction().commit();
-
-        //        entityManager.persist(user);
-         //   else
-        //        entityManager.merge(user)
-            //       user.setCart(cart);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(User user, List<Book> books) {
+    public void delete(User user) {
         try {
             if (entityManager.contains(user)) {
-         //       User u=entityManager.find(User.class,user.getId());
-              //  entityManager.remove(user);
-
-           //     entityManager.getTransaction().begin();
                 entityManager.remove(user);
-           //     entityManager.merge(user);
-         //       entityManager.flush();
-         //       entityManager.refresh(user);
-       //         entityManager.getTransaction().commit();
-            //    entityManager.remove(user.getCart().getUser());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,5 +39,37 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getById(Long id) {
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public boolean checkUserName(String userName) {
+        List<User> result = entityManager.createQuery("SELECT u FROM User u WHERE userName = :userName")
+                .setParameter("userName", userName).getResultList();
+
+        if(result.size() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean checkParola(String userName, int parola) {
+        List<User> result = entityManager.createQuery("SELECT u FROM User u WHERE userName = :userName AND " +
+                "parola = :parola")
+                .setParameter("userName", userName)
+                .setParameter("parola", parola).getResultList();
+
+        if(result.size() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public User getByUserName(String userName) {
+        return (User) entityManager.createQuery("SELECT u FROM User u WHERE userName = :userName")
+                .setParameter("userName", userName).getSingleResult();
     }
 }

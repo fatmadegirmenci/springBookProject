@@ -1,7 +1,7 @@
 package springbookproject.springbookproject.Domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,18 +31,53 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @NotNull
+    private String role;
+
+    @NotNull
+    @Column(unique = true)
+    private String userName;
+
+    @NotNull
+    private int parola;
+
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnoreProperties("user")
     private Cart cart;
 
+
     public User() {
     }
 
-    public User(@NotNull String firstName, @NotNull String lastName, @NotNull Date registerDate, @NotNull String address, Cart cart) {
+    public User(@NotNull String firstName, @NotNull String lastName,
+                @NotNull Date registerDate, @NotNull String address, Cart cart) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.registerDate = registerDate;
         this.address = address;
+        this.cart = cart;
+    }
+
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull Date registerDate,
+                @NotNull String address, @NotNull String role, Cart cart) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registerDate = registerDate;
+        this.address = address;
+        this.role = role;
+        this.cart = cart;
+    }
+
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull Date registerDate,
+                @NotNull String address, @NotNull String role, @NotNull String userName, @NotNull int parola, Cart cart) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registerDate = registerDate;
+        this.address = address;
+        this.role = role;
+        this.userName = userName;
+        this.parola = parola;
         this.cart = cart;
     }
 
@@ -92,5 +127,29 @@ public class User {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getParola() {
+        return parola;
+    }
+
+    public void setParola(int parola) {
+        this.parola = parola;
     }
 }

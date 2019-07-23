@@ -14,6 +14,10 @@ public class UserModel {
     private Date registerDate;
     private String address;
     private Cart cart;
+    private String role;
+    private String userName;
+    private int parola;
+
 
     public UserModel() {
     }
@@ -24,6 +28,27 @@ public class UserModel {
         this.registerDate = registerDate;
         this.address = address;
         this.cart = cart;
+    }
+
+    public UserModel(String firstName, String lastName, Date registerDate, String address, Cart cart, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registerDate = registerDate;
+        this.address = address;
+        this.cart = cart;
+        this.role = role;
+    }
+
+    public UserModel(String firstName, String lastName, Date registerDate, String address,
+                     Cart cart, String role, String userName, int parola) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registerDate = registerDate;
+        this.address = address;
+        this.cart = cart;
+        this.role = role;
+        this.userName = userName;
+        this.parola = parola;
     }
 
     public Long getId() {
@@ -72,5 +97,29 @@ public class UserModel {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getParola() {
+        return parola;
+    }
+
+    public void setParola(int parola) {
+        this.parola = parola;
     }
 }
